@@ -1,0 +1,255 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\GUI\\GUI.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\BUS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\BUS.csproj",
+        "projectName": "BUS",
+        "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\BUS.csproj",
+        "packagesPath": "C:\\Users\\WELCOME\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\WELCOME\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\DAO.csproj": {
+                "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\DAO.csproj"
+              },
+              "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\DAO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\DAO.csproj",
+        "projectName": "DAO",
+        "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\DAO.csproj",
+        "packagesPath": "C:\\Users\\WELCOME\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DAO\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\WELCOME\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj",
+        "projectName": "DTO",
+        "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj",
+        "packagesPath": "C:\\Users\\WELCOME\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\WELCOME\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\GUI\\GUI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\GUI\\GUI.csproj",
+        "projectName": "GUI",
+        "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\GUI\\GUI.csproj",
+        "packagesPath": "C:\\Users\\WELCOME\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\GUI\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\WELCOME\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {
+              "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\BUS.csproj": {
+                "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\BUS\\BUS.csproj"
+              },
+              "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\WELCOME\\Desktop\\CNPM_LT_1\\CarParking\\CarParkingSystem\\DTO\\DTO.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
