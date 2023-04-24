@@ -15,14 +15,14 @@ namespace GUI
     public partial class FAddEditStaff : Form
     {
         private FMainManager fmm;
-        private bool action;
+        private bool isAdd;
         static string sdtcu = "";
 
-        public FAddEditStaff(FMainManager fmm, bool action)
+        public FAddEditStaff(FMainManager fmm, bool isAdd=true)
         {
             InitializeComponent();
             this.fmm = fmm;
-            this.action = action;
+            this.isAdd = isAdd;
         }
 
         private void pb_add_Click(object sender, EventArgs e)
@@ -81,7 +81,7 @@ namespace GUI
 
         private void FAddEditStaff_Load(object sender, EventArgs e)
         {
-            if (action)
+            if (isAdd)
             {
                 pb_background.Image = Properties.Resources.addStaff;
                 pb_add.Visible = true;

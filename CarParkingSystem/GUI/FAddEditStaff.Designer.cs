@@ -210,9 +210,11 @@
             this.Controls.Add(this.tb_name);
             this.Controls.Add(this.tb_phone);
             this.Controls.Add(this.pb_background);
+            this.MaximumSize = new System.Drawing.Size(1000, 800);
+            this.MinimumSize = new System.Drawing.Size(1000, 800);
             this.Name = "FAddEditStaff";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FAddEditStaff";
+            this.Text = "Thay đổi thông tin nhân viên";
             this.Load += new System.EventHandler(this.FAddEditStaff_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_background)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_add)).EndInit();

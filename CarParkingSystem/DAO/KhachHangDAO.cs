@@ -61,7 +61,7 @@ namespace DAO
         }
         public DataTable getAllCustomer()
         {
-            String query = "SELECT * FROM KhachHang";
+            String query = "SELECT SODT, TENKH, PASS, DIEMTICHLUY FROM KhachHang";
             return DataProvider.Instance.ExecuteQuery(query);
         }
         public bool deleteAccount(String sdt)

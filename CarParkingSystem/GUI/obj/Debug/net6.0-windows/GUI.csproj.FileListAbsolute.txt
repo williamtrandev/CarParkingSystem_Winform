@@ -35,3 +35,6 @@ C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.pdb
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.genruntimeconfig.cache
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\ref\GUI.dll
+C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.FAddEditParking.resources
+C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.FAddEditCarType.resources
+C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.FMainStaff.resources

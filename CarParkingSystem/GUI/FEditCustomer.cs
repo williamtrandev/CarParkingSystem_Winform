@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace GUI
 {
@@ -67,7 +68,7 @@ namespace GUI
             String name = tb_name.Text.ToString();
             int diemtl = Convert.ToInt16(tb_point.Text.ToString());
             String pass = tb_pass.Text.ToString();
-            if (KhachHangBUS.Instance.checkExistAccount(sdt))
+            if (sdtcu != sdt && KhachHangBUS.Instance.checkExistAccount(sdt))
             {
                 lb_validate_phone.Text = "Số điện thoại tồn tại!";
                 return;

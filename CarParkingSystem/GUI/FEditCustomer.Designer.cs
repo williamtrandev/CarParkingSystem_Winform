@@ -155,6 +155,7 @@
             this.Name = "FEditCustomer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Thay đổi thông tin khách hàng";
+            this.Load += new System.EventHandler(this.FEditCustomer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pb_background)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_update)).EndInit();
             this.ResumeLayout(false);

@@ -99,5 +99,13 @@ namespace GUI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        internal static System.Drawing.Bitmap car_parking
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("car_parking", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

@@ -59,12 +59,12 @@ namespace DAO
         }
         public DataTable getAllStaff()
         {
-            String query = "SELECT * FROM NhanVien";
+            String query = "SELECT SODT, TENNV, DIACHI, PASS, LOAINV FROM NhanVien";
             return DataProvider.Instance.ExecuteQuery(query);
         }
         public bool deleteAccountNhanVien(String sdt)
         {
-            String query = string.Format("DELETE FROM NhanVien WHERE SODT = @sdt");
+            String query = string.Format("UPDATE NhanVien SET DELETED=1 WHERE SODT = @sdt");
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { sdt }) > 0;
         }
         public bool updateAccountNhanVien(String sdtcu, String sdt, String name, String diachi, String pass, int loainv)
