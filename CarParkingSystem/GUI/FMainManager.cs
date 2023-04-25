@@ -374,7 +374,10 @@ namespace GUI
         }
         
 
-       
+        /*public void loadHoaDon()
+        {
+            DataTable dt = BUS.HoaDonBUS.getAllHoaDon();
+        }*/
       
 
         

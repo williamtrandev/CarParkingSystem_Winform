@@ -39,5 +39,9 @@ namespace BUS
         {
             return HoaDonDAO.Instance.getAllHD_KH(sdtkh);
         }
+        public DataTable getAllHoaDon(String start, String end)
+        {
+            return HoaDonDAO.Instance.getAllHoaDon(start, end);
+        }
     }
 }

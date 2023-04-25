@@ -40,5 +40,10 @@ namespace DAO
             String query = "lichsudatchokh @sdtkh";
             return DataProvider.Instance.ExecuteQuery(query, new object[] { sdtkh });
         }
+        public DataTable getAllHoaDon(String start, String end) 
+        {
+            string query = "exec getAllHoaDon @start , @end";
+            return DataProvider.Instance.ExecuteQuery(query, new object[] { start, end });
+        }
     }
 }

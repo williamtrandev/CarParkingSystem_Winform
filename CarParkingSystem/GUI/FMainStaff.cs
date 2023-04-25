@@ -50,7 +50,22 @@ namespace GUI
             pnl.BackgroundImage = imgBackgroundChoose;
             pnl.BackgroundImageLayout = ImageLayout.Stretch;
         }
+        void changeSize()
+        {
+            int width = pnl_wrapper.Width / 4;
+            int height = pnl_wrapper.Height;
+            int x = 0, y = 0;
 
+            pnl_mid.Size = new System.Drawing.Size(width, height);
+            pnl_mid.Location = new Point(pnl_left.Width + width/2, 0);
+            pnl_left.Size = new System.Drawing.Size(width, height);
+            pnl_left.Location = new Point(width/2, 0);
+            pnl_left.Margin = new Padding(width/2, 0, 0, 0);
+            pnl_right.Size = new System.Drawing.Size(width, height);
+            pnl_right.Location = new Point(pnl_left.Width + pnl_mid.Width + width/2, 0);
+            pnl_right.Margin = new Padding(0, 0, width/2, 0);
+
+        }
         private void FMainStaff_Load(object sender, EventArgs e)
         {
             lb_dsxtb.Parent = pnl_dsxtb;
@@ -65,6 +80,8 @@ namespace GUI
             loadTheVao(this.mabai);
             loadTheRa(this.mabai);
             loadDonDatCho(this.mabai);
+            loadVitri(this.mabai);
+            changeSize();
         }
         void loadCar(int mabai)
         {
@@ -298,6 +315,11 @@ namespace GUI
         private void btn_xedattruoc_Click(object sender, EventArgs e)
         {
             tb_sdt.Enabled = true;
+        }
+
+        private void FMainStaff_Resize(object sender, EventArgs e)
+        {
+            changeSize();
         }
 
         /*private void btn_morao_Click(object sender, EventArgs e)
