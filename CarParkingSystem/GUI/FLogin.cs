@@ -20,7 +20,7 @@ namespace GUI
             lb_validate_pass.Parent = pb_form_background;
             lb_validate_msg.Parent = pb_form_background;
             // Change background of "Dang Nhap" and "Dang Ki" picturebox to remove white background
-            pb_login_login.BackColor = Color.Transparent; 
+            pb_login_login.BackColor = Color.Transparent;
             pb_register_login.BackColor = Color.Transparent;
             pb_close.BackColor = Color.Transparent;
             pb_minus.BackColor = Color.Transparent;
@@ -63,13 +63,13 @@ namespace GUI
         private void pb_login_login_Click(object sender, EventArgs e)
         {
             // validating when click on button "Dang Nhap"
-            if(tb_phone_login.Text == "")   // Show message to user
+            if (tb_phone_login.Text == "")   // Show message to user
             {
                 lb_validate_phone.Text = "Số điện thoại chưa nhập!";
                 tb_phone_login.Focus();     // Focus on input textbox for user
                 return;
             }
-            if(tb_pass_login.Text == "")    // Show message to user
+            if (tb_pass_login.Text == "")    // Show message to user
             {
                 lb_validate_pass.Text = "Mật khẩu chưa nhập!";
                 tb_pass_login.Focus();
@@ -79,16 +79,65 @@ namespace GUI
             this.ActiveControl = null;
             String sdt = tb_phone_login.Text.ToString();
             String pass = tb_pass_login.Text.ToString();
-            KhachHang khachhang = null;
-            khachhang = KhachHangBUS.Instance.checkAccount(sdt, pass);
-            if (khachhang != null)
+            //MessageBox.Show(sdt.Substring(0, 1).Equals(".").ToString());
+            if (sdt.Substring(0, 1).Equals("'"))
             {
-                MessageBox.Show("Đăng nhập thành công");
+                NhanVien nhanvien = null;
+                nhanvien = NhanVienBUS.Instance.checkAccount(sdt, pass);
+                if (nhanvien != null)
+                {
+
+
+                    if (nhanvien.LOAINV == 0)
+                    {
+                        MessageBox.Show("Đăng nhập thành công! Chức năng nhân viên bãi");
+                        FMainStaff fstaff = new FMainStaff();
+                        fstaff.Nhanvien = nhanvien;
+                        this.Hide();
+                        fstaff.ShowDialog();
+                        this.Show();
+                        this.WindowState = FormWindowState.Minimized;
+                    }
+                    else if (nhanvien.LOAINV == 1)
+                    {
+                        MessageBox.Show("Đăng nhập thành công! Chức năng quản lí");
+                        FMainManager fstaff = new FMainManager();
+                        fstaff.Nhanvien = nhanvien;
+                        this.Hide();
+                        fstaff.ShowDialog();
+                        this.Show();
+                        this.WindowState = FormWindowState.Minimized;
+                    }
+
+
+                }
+                else
+                {
+                    lb_validate_msg.Text = "Sai tên tài khoản hoặc mật khẩu!";
+                }
             }
             else
             {
-                lb_validate_msg.Text = "Sai tên tài khoản hoặc mật khẩu!";
+                KhachHang khachhang = null;
+                khachhang = KhachHangBUS.Instance.checkAccount(sdt, pass);
+                if (khachhang != null)
+                {
+                    MessageBox.Show("Đăng nhập thành công");
+                    FMainCustomer fuser = new FMainCustomer();
+                    fuser.Khachhang = khachhang;
+                    this.Hide();
+                    fuser.ShowDialog();
+                    this.Show();
+                    this.WindowState = FormWindowState.Minimized;
+
+
+                }
+                else
+                {
+                    lb_validate_msg.Text = "Sai tên tài khoản hoặc mật khẩu!";
+                }
             }
+
 
         }
 

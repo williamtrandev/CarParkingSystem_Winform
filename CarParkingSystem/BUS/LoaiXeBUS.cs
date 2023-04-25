@@ -29,9 +29,21 @@ namespace BUS
         {
 
         }
-        public DataTable getAllLoaiXe()
+        public List<LoaiXe> getAllLoaiXe()
         {
-            return DAO.LoaiXeDAO.Instance.getAllLoaiXe();
+            List<LoaiXe> Temp = new List<LoaiXe>();
+            foreach (LoaiXe c in LoaiXeDAO.Instance.getAllLoaiXe())
+            {
+                if (c.Deleted == 0)
+                {
+                    Temp.Add(c);
+                }
+            }
+            return Temp;
+        }
+        public DataTable getAllLoaiXeDT()
+        {
+            return DAO.LoaiXeDAO.Instance.getAllLoaiXeDT();
         }
         public bool insertLoaiXe(LoaiXe lx)
         {

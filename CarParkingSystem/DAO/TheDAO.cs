@@ -41,7 +41,21 @@ namespace DAO
         public The getDetail(int id)
         {
             string query = "SELECT * FROM The WHERE SOTHE = @id";
-            //return (The) DataProvider.Instance.ExecuteScalar(query, new object[] { @id });
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { id });
+
+            if (data.Rows.Count > 0)
+            {
+                DataRow row = data.Rows[0];
+
+                return new The(row);
+            }
+
+            return null; // Nếu không tìm thấy thẻ thì trả về null
+        }
+        public bool updateThe(int sothe, string biensoxe, string giovao, int trangthai)
+        {
+            String query = "UPDATE The SET biensoxe = @biensoxe , giovao = @giovao , trangthai = @trangthai WHERE sothe = @sothe";
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { biensoxe, giovao, trangthai, sothe}) > 0;
         }
     }
 }

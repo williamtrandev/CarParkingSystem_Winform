@@ -28,7 +28,21 @@ namespace DAO
         private LoaiXeDAO()
         {
         }
-        public DataTable getAllLoaiXe()
+        public List<LoaiXe> getAllLoaiXe()
+        {
+            String query = "select * from loaixe";
+            List<LoaiXe> loaixe = new List<LoaiXe>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            foreach (DataRow item in data.Rows)
+            {
+                LoaiXe hh = new LoaiXe(item);
+                loaixe.Add(hh);
+            }
+
+            return loaixe;
+        }
+        public DataTable getAllLoaiXeDT()
         {
             String query = "SELECT MALOAI, TENLOAI, PHIGIU FROM LoaiXe WHERE DELETED=0";
             return DataProvider.Instance.ExecuteQuery(query);
@@ -36,12 +50,12 @@ namespace DAO
         public bool insertLoaiXe(LoaiXe lx)
         {
             String query = "INSERT INTO LoaiXe (TENLOAI, PHIGIU) VALUES( @TENLOAI , @PHIGIU )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { lx.TENLOAI, lx.PHIGIU }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { lx.Tenloaixe, lx.Phigiu }) > 0;
         }
         public bool updateLoaiXe(LoaiXe lx)
         {
             String query = "UPDATE LoaiXe SET TENLOAI = @TENLOAI , PHIGIU = @PHIGIU WHERE MALOAI = @MALOAI";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { lx.TENLOAI, lx.PHIGIU, lx.MALOAI }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { lx.Tenloaixe, lx.Phigiu, lx.Maloai }) > 0;
         }
         public bool removeLoaiXe(String maloai)
         {

@@ -43,5 +43,19 @@ namespace DAO
             string query = "UPDATE Vitri SET tinhtrang = 2 where ID_VITRI = @id_vitri";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { id_vitri }) > 0;
         }
+        public List<ViTri> getVitriTheoMaBai(int mabai)
+        {
+            String query = "select * from ViTri where MABAIXE = @mabai";
+            List<ViTri> listvitri = new List<ViTri>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { mabai });
+            foreach (DataRow item in data.Rows)
+            {
+                ViTri hh = new ViTri(item);
+                listvitri.Add(hh);
+            }
+
+            return listvitri;
+        }
     }
 }

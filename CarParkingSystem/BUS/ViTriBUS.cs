@@ -37,5 +37,9 @@ namespace BUS
         {
             return DAO.ViTriDAO.Instance.changeStateVitriDatCho(id_vitri);
         }
+        public List<ViTri> getVitrisTheoMaBai(int mabai)
+        {
+            return ViTriDAO.Instance.getVitriTheoMaBai(mabai);
+        }
     }
 }

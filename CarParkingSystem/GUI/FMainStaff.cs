@@ -14,8 +14,10 @@ namespace GUI
     public partial class FMainStaff : Form
     {
         Image imgBackgroundChoose = null;  // Variable that store background image
-        int mabai; 
-        
+        int mabai;
+        private NhanVien nhanvien = new NhanVien();
+
+        public NhanVien Nhanvien { get => nhanvien; set => nhanvien = value; }
         public FMainStaff()
         {
             InitializeComponent();
@@ -57,8 +59,9 @@ namespace GUI
             lb_xrvb.BackColor = Color.Transparent;
             lb_dsdt.Parent = pnl_dsdt;
             lb_dsdt.BackColor = Color.Transparent;
+            btn_morao.Enabled = false;
             changeVisible(pnl_default);
-            loadCar(1);
+            loadCar(this.mabai);
             loadTheVao(this.mabai);
             loadTheRa(this.mabai);
             loadDonDatCho(this.mabai);
@@ -131,6 +134,12 @@ namespace GUI
             cb_thera.DisplayMember = "tenthe";
             cb_thera.SelectedIndex = -1;
         }
+        void loadVitri(int mabai)
+        {
+            List<ViTri> lvt = BUS.ViTriBUS.Instance.getVitrisTheoMaBai(mabai);
+            cb_vitri.DataSource = lvt;
+            cb_vitri.DisplayMember = "sovitri";
+        }
         private void lb_dsxtb_Click(object sender, EventArgs e)
         {
             changeBackgroundPanel(pnl_dsxtb);
@@ -178,7 +187,7 @@ namespace GUI
             {
                 MessageBox.Show("Chốt đơn đặt chỗ thành công", "Thông báo");
                 loadDonDatCho(this.mabai);
-                loadCar(1);
+                loadCar(this.mabai);
             } else
             {
                 MessageBox.Show("Chốt đơn đặt chỗ đã có lỗi", "Thông báo");
@@ -201,12 +210,102 @@ namespace GUI
 
         private void cb_thera_SelectedIndexChanged(object sender, EventArgs e)
         {
-          /*  SupportThe selectedItem = (SupportThe) cb_thera.SelectedItem;
+            tb_bsdoichieu.Text = "";
+            tb_sothedoichieu.Text = "";
+            tb_tgvao.Text = "";
+            if (cb_thera.SelectedIndex != -1 && tb_bienso.Text.Trim() != "")
+            {
+                SupportThe selectedItem = (SupportThe) cb_thera.SelectedItem;
+                int sothe = selectedItem.Sothe;
+                The the = BUS.TheBUS.Instance.getDetail(sothe);
+                tb_bsdoichieu.Text = the.BIENSOXE;
+                tb_sothedoichieu.Text = the.TENTHE;
+                tb_tgvao.Text = (Convert.ToDateTime(the.GIOVAO)).ToString("dd-MM-yyyy HH:mm:ss");
+                if(checkValidOut())
+                {
+                    MessageBox.Show("Hợp lệ, xe có thể ra", "Thông báo");
+                    btn_morao.Enabled = true;
+                } else
+                {
+                    MessageBox.Show("Không trùng biển số", "Cảnh báo");
+                    btn_morao.Enabled = false;
+                }
+            }
+        }
+        bool checkValidOut()
+        {
+            if (tb_bienso.Text.Trim() == tb_bsdoichieu.Text.Trim())
+                return true;
+            return false;
+        }
+
+        private void btn_choxevao_Click(object sender, EventArgs e)
+        {
+            if(tb_biensovao.Text.Trim() != "")
+            {
+                The the = new The();
+                SupportThe selectedItem = (SupportThe)cb_thevao.SelectedItem;
+                the.SOTHE = selectedItem.Sothe;
+                the.BIENSOXE = tb_biensovao.Text.ToString();
+                the.GIOVAO = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                the.TRANGTHAI = 1;
+                if(tb_sdt.Text.Trim() != "")
+                {
+                    the.SDTKH = tb_sdt.Text.ToString();
+                }
+                bool checkUpdate = BUS.TheBUS.Instance.updateThe(the);
+                if (checkUpdate)
+                {
+                    MessageBox.Show("Cho xe vào bãi", "Thông báo");
+                    loadTheVao(this.mabai);
+                    loadTheRa(this.mabai);
+                    tb_biensovao.Clear();
+                    tb_sdt.Clear();
+                }
+            } else
+            {
+                MessageBox.Show("Chưa nhận dạng được biển số", "Cảnh báo");
+            }
+            
+        }
+
+        private void btn_kiemtra_Click(object sender, EventArgs e)
+        {
+            tb_bsdoichieu.Text = "";
+            tb_sothedoichieu.Text = "";
+            tb_tgvao.Text = "";
+            if (cb_thera.SelectedIndex != -1 && tb_bienso.Text.Trim() != "")
+            {
+                SupportThe selectedItem = (SupportThe)cb_thera.SelectedItem;
+                int sothe = selectedItem.Sothe;
+                The the = BUS.TheBUS.Instance.getDetail(sothe);
+                tb_bsdoichieu.Text = the.BIENSOXE;
+                tb_sothedoichieu.Text = the.TENTHE;
+                tb_tgvao.Text = (Convert.ToDateTime(the.GIOVAO)).ToString("dd-MM-yyyy HH:mm:ss");
+                if (checkValidOut())
+                {
+                    MessageBox.Show("Hợp lệ, xe có thể ra", "Thông báo");
+                    btn_morao.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Không trùng biển số", "Cảnh báo");
+                    btn_morao.Enabled = false;
+                }
+            }
+        }
+
+        private void btn_xedattruoc_Click(object sender, EventArgs e)
+        {
+            tb_sdt.Enabled = true;
+        }
+
+        /*private void btn_morao_Click(object sender, EventArgs e)
+        {
+            SupportThe selectedItem = (SupportThe)cb_thera.SelectedItem;
             int sothe = selectedItem.Sothe;
             The the = BUS.TheBUS.Instance.getDetail(sothe);
-            tb_bsdoichieu.Text = the.BIENSOXE;
-            tb_sothedoichieu.Text = the.TENTHE;
-            tb_tgvao.Text = the.GIOVAO;*/
-        }
+            bool checkInsert = BUS.HoaDonBUS.Instance.insertHoaDon(the.SDTKH, this.nv.SDT, );
+        }*/
     }
 }

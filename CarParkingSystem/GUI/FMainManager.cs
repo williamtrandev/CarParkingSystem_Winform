@@ -16,6 +16,9 @@ namespace GUI
     {
         Image imgBackgroundChoose = null;  // Variable that store background image
         public BindingSource bs_khachhang, bs_nhanvien, bs_baigiu, bs_loaixe;
+        private NhanVien nhanvien = new NhanVien();
+
+        public NhanVien Nhanvien { get => nhanvien; set => nhanvien = value; }
         public FMainManager()
         {
             InitializeComponent();
@@ -365,7 +368,7 @@ namespace GUI
         public void loadLoaiXe()
         {
             DataTable dt = new DataTable();
-            dt = BUS.LoaiXeBUS.Instance.getAllLoaiXe();
+            dt = BUS.LoaiXeBUS.Instance.getAllLoaiXeDT();
             bs_loaixe.DataSource = dt;
             dgv_lx_qlbx.DataSource = bs_loaixe;
         }

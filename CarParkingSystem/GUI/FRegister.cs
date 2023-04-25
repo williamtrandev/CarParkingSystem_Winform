@@ -93,7 +93,7 @@ namespace GUI
             this.lb_validate_phone_register.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.lb_validate_phone_register.Location = new System.Drawing.Point(594, 265);
             this.lb_validate_phone_register.Name = "lb_validate_phone_register";
-            this.lb_validate_phone_register.Size = new System.Drawing.Size(252, 28);
+            this.lb_validate_phone_register.Size = new System.Drawing.Size(0, 28);
             this.lb_validate_phone_register.TabIndex = 4;
             // 
             // tb_name_register
@@ -116,7 +116,7 @@ namespace GUI
             this.lb_validate_name_register.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.lb_validate_name_register.Location = new System.Drawing.Point(618, 394);
             this.lb_validate_name_register.Name = "lb_validate_name_register";
-            this.lb_validate_name_register.Size = new System.Drawing.Size(220, 28);
+            this.lb_validate_name_register.Size = new System.Drawing.Size(0, 28);
             this.lb_validate_name_register.TabIndex = 6;
             // 
             // tb_pass_register
@@ -140,7 +140,7 @@ namespace GUI
             this.lb_validate_pass_register.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.lb_validate_pass_register.Location = new System.Drawing.Point(618, 521);
             this.lb_validate_pass_register.Name = "lb_validate_pass_register";
-            this.lb_validate_pass_register.Size = new System.Drawing.Size(220, 28);
+            this.lb_validate_pass_register.Size = new System.Drawing.Size(0, 28);
             this.lb_validate_pass_register.TabIndex = 8;
             // 
             // tb_confirm_register
@@ -164,7 +164,7 @@ namespace GUI
             this.lb_validate_confirm_register.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.lb_validate_confirm_register.Location = new System.Drawing.Point(548, 649);
             this.lb_validate_confirm_register.Name = "lb_validate_confirm_register";
-            this.lb_validate_confirm_register.Size = new System.Drawing.Size(301, 28);
+            this.lb_validate_confirm_register.Size = new System.Drawing.Size(0, 28);
             this.lb_validate_confirm_register.TabIndex = 10;
             // 
             // pb_register_register
@@ -198,7 +198,7 @@ namespace GUI
             this.lb_validate_pass_confirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.lb_validate_pass_confirm.Location = new System.Drawing.Point(510, 558);
             this.lb_validate_pass_confirm.Name = "lb_validate_pass_confirm";
-            this.lb_validate_pass_confirm.Size = new System.Drawing.Size(397, 28);
+            this.lb_validate_pass_confirm.Size = new System.Drawing.Size(0, 28);
             this.lb_validate_pass_confirm.TabIndex = 13;
             // 
             // FRegister
@@ -218,6 +218,7 @@ namespace GUI
             this.Controls.Add(this.pb_minus_register);
             this.Controls.Add(this.pb_close_register);
             this.Controls.Add(this.pb_background_register);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FRegister";

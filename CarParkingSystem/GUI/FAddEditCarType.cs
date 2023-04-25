@@ -48,8 +48,8 @@ namespace GUI
         private void pb_add_Click(object sender, EventArgs e)
         {
             LoaiXe lx = new LoaiXe();
-            lx.TENLOAI = tb_tenlx_add.Text.ToString();
-            lx.PHIGIU = float.Parse(tb_phigiu_add.Text);
+            lx.Tenloaixe = tb_tenlx_add.Text.ToString();
+            lx.Phigiu = float.Parse(tb_phigiu_add.Text);
             bool checkInsert = BUS.LoaiXeBUS.Instance.insertLoaiXe(lx);
             if (checkInsert)
             {
@@ -66,9 +66,9 @@ namespace GUI
         {
             DataRowView rowSelect = (DataRowView)fmm.bs_loaixe.Current;   // Get the row that is selected in Form Main
             LoaiXe lx = new LoaiXe();
-            lx.MALOAI = rowSelect["MALOAI"].ToString();
-            lx.TENLOAI = tb_tenlx_add.Text.ToString();
-            lx.PHIGIU = Convert.ToInt32(tb_phigiu_add.Text);
+            lx.Maloai = (int)rowSelect["MALOAI"];
+            lx.Tenloaixe = tb_tenlx_add.Text.ToString();
+            lx.Phigiu = Convert.ToInt32(tb_phigiu_add.Text);
             bool checkUpdate = BUS.LoaiXeBUS.Instance.updateLoaiXe(lx);
             if (checkUpdate)
             {

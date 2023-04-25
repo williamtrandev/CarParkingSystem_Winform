@@ -54,6 +54,10 @@ namespace BUS
         {
             return DAO.KhachHangDAO.Instance.updateAccountKhachHang(sdtcu, sdt, name, pass, diemtl);
         }
+        public int updateInFoKH(String sdtkhachhang, String tenKH, String pass)
+        {
+            return KhachHangDAO.Instance.updateInFoKH(sdtkhachhang, tenKH, pass);
+        }
     }
     
 }

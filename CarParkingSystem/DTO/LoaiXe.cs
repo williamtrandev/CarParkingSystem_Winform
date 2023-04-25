@@ -9,30 +9,34 @@ namespace DTO
 {
     public class LoaiXe
     {
-        private String maloai;
-        private String tenloai;
-        private float phigiu;
-
-        public LoaiXe(string maloai, string tenloai, float phigiu)
-        {
-            this.maloai = maloai;
-            this.tenloai = tenloai;
-            this.phigiu = phigiu;
-        }
+        private int maloai;
+        private String tenloaixe;
+        private double phigiu;
+        private int deleted;
 
         public LoaiXe(DataRow row)
         {
-            this.MALOAI = row["MALOAI"].ToString();
-            this.TENLOAI = row["TENLOAI"].ToString();
-            this.PHIGIU = (float)row["PHIGIU"];
+
+            this.phigiu = (Double)row["PHIGIU"];
+            this.tenloaixe = row["TENLOAI"].ToString();
+            this.maloai = (int)row["MALOAI"];
+            this.Deleted = (int)row["DELETED"];
+        }
+
+        public LoaiXe(int maloai, string tenloaixe, double phigiu)
+        {
+            this.maloai = maloai;
+            this.tenloaixe = tenloaixe;
+            this.phigiu = phigiu;
         }
 
         public LoaiXe()
         {
         }
 
-        public string MALOAI { get => maloai; set => maloai = value; }
-        public string TENLOAI { get => tenloai; set => tenloai = value; }
-        public float PHIGIU { get => phigiu; set => phigiu = value; }
+        public int Maloai { get => maloai; set => maloai = value; }
+        public string Tenloaixe { get => tenloaixe; set => tenloaixe = value; }
+        public double Phigiu { get => phigiu; set => phigiu = value; }
+        public int Deleted { get => deleted; set => deleted = value; }
     }
 }

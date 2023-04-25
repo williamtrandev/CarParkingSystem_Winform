@@ -29,6 +29,10 @@ namespace BUS
         {
 
         }
+        public List<BaiGiu> getallBaiGiuXe()
+        {
+            return BaiGiuDAO.Instance.GetBaiGiuXes();
+        }
         public DataTable getAllBaiGiu()
         {
             return DAO.BaiGiuDAO.Instance.getAllBaiGiu();

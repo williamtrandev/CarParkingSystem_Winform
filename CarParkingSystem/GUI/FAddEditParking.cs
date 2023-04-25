@@ -48,9 +48,9 @@ namespace GUI
         {
             DataRowView rowSelect = (DataRowView)fmm.bs_baigiu.Current;   // Get the row that is selected in Form Main
             BaiGiu bg = new BaiGiu();
-            bg.MABAI = rowSelect["MABAI"].ToString();
-            bg.TENBAI = tb_tenbx_add.Text.ToString();
-            bg.SUCCHUA = Convert.ToInt32(tb_succhua_add.Text);
+            bg.Mabai = (int)rowSelect["MABAI"];
+            bg.Tenbai = tb_tenbx_add.Text.ToString();
+            bg.Succhua = Convert.ToInt32(tb_succhua_add.Text);
             bool checkUpdate = BUS.BaiGiuBUS.Instance.updateBaiGiu(bg);
             if (checkUpdate)
             {
@@ -66,8 +66,8 @@ namespace GUI
         private void pb_add_parking_Click(object sender, EventArgs e)
         {
             BaiGiu bg = new BaiGiu();
-            bg.TENBAI = tb_tenbx_add.Text.ToString();
-            bg.SUCCHUA = Convert.ToInt32(tb_succhua_add.Text);
+            bg.Tenbai = tb_tenbx_add.Text.ToString();
+            bg.Succhua = Convert.ToInt32(tb_succhua_add.Text);
             bool checkInsert = BUS.BaiGiuBUS.Instance.insertBaiGiu(bg);
             if (checkInsert)
             {

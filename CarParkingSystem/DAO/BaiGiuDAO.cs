@@ -28,6 +28,21 @@ namespace DAO
         private BaiGiuDAO()
         {
         }
+        public List<BaiGiu> GetBaiGiuXes()
+        {
+
+            String query = "select * from BaiGiu";
+            List<BaiGiu> listban = new List<BaiGiu>();
+
+            DataTable data = DataProvider.Instance.ExecuteQuery(query);
+            foreach (DataRow item in data.Rows)
+            {
+                BaiGiu hh = new BaiGiu(item);
+                listban.Add(hh);
+            }
+
+            return listban;
+        }
         public DataTable getAllBaiGiu()
         {
             String query = "SELECT MABAI, TENBAI, SUCCHUA FROM BaiGiu WHERE DELETED=0";
@@ -36,12 +51,12 @@ namespace DAO
         public bool insertBaiGiu(BaiGiu bg)
         {
             String query = "INSERT INTO BaiGiu (TENBAI, SUCCHUA) VALUES( @TENBAI , @SUCCHUA )";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { bg.TENBAI, bg.SUCCHUA }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { bg.Tenbai, bg.Succhua }) > 0;
         }
         public bool updateBaiGiu(BaiGiu bg)
         {
             String query = "UPDATE BaiGiu SET TENBAI = @TENBAI , SUCCHUA = @SUCCHUA WHERE MABAI = @MABAI";
-            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { bg.TENBAI, bg.SUCCHUA, bg.MABAI }) > 0;
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { bg.Tenbai, bg.Succhua, bg.Mabai }) > 0;
         }
         public bool removeBaiGiu(String mabai)
         {

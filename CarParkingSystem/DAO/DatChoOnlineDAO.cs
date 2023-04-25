@@ -44,5 +44,23 @@ namespace DAO
             string query = "UPDATE datchoonline set tinhtrang = -1 where madon = @madon";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { madon }) > 0;
         }
+        public int deleteDon(int madon, String sdt)
+        {
+            String query = string.Format("delete from datchoonline where madon = @madon and sdtkhachhang = @sdt");
+            return DataProvider.Instance.ExecuteNonQuery(query, new object[] { madon, sdt });
+        }
+        public int inserDatChoOnline(String sdtkhachhang, int ID_VITRI, int mabai, String ngaydat, int loaixe, String giodat)
+        {
+            String query = "insert_datChoOnline @sdtkhachhang , @mavitri , @mabai , @ngaydat , @loaixe , @giodat";
+            int data = DataProvider.Instance.ExecuteNonQuery(query, new object[] { sdtkhachhang, ID_VITRI, mabai, ngaydat, loaixe, giodat });
+            return data;
+        }
+
+        public DataTable getAllDonHangOn(String sdtkh)
+        {
+            String query = "showdatchoonline_proc @sdtkh";
+            return DataProvider.Instance.ExecuteQuery(query, new object[] { sdtkh });
+        }
+
     }
 }

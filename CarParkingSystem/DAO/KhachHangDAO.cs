@@ -74,5 +74,11 @@ namespace DAO
             String query = string.Format("UPDATE KhachHang SET SODT = @sdt , TENKH = @name , PASS = @pass , DIEMTICHLUY = @diemtl WHERE SODT = @sdtcu");
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { sdt, name, pass, diemtl, sdtcu }) > 0;
         }
+        public int updateInFoKH(String sdtkhachhang, String tenKH, String pass)
+        {
+            String query = "updatekh @sdt , @tenkh , @pass";
+            int data = DataProvider.Instance.ExecuteNonQuery(query, new object[] { sdtkhachhang, tenKH, pass });
+            return data;
+        }
     }
 }

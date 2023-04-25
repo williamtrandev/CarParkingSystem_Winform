@@ -41,5 +41,19 @@ namespace BUS
         {
             return DAO.DatChoOnlineDAO.Instance.deleteDonDatCho(madon);
         }
+        public int insertDatCHoOnline(String sdtkhachhang, int ID_VITRI, int mabai, String ngaydat, int loaixe, String giodat)
+        {
+            return DatChoOnlineDAO.Instance.inserDatChoOnline(sdtkhachhang, ID_VITRI, mabai, ngaydat, loaixe, giodat);
+        }
+
+        public DataTable getAllDonHangOn(String sdtkh)
+        {
+            return DatChoOnlineDAO.Instance.getAllDonHangOn(sdtkh);
+        }
+
+        public int deleteDonOn(int madon, String sdt)
+        {
+            return DatChoOnlineDAO.Instance.deleteDon(madon, sdt);
+        }
     }
 }

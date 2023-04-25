@@ -41,5 +41,9 @@ namespace BUS
         {
             return DAO.TheDAO.Instance.getDetail(id);
         }
+        public bool updateThe(The the)
+        {
+            return DAO.TheDAO.Instance.updateThe(the.SOTHE, the.BIENSOXE, the.GIOVAO, the.TRANGTHAI);
+        }
     }
 }
