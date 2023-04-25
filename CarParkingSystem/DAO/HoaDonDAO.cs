@@ -45,5 +45,20 @@ namespace DAO
             string query = "exec getAllHoaDon @start , @end";
             return DataProvider.Instance.ExecuteQuery(query, new object[] { start, end });
         }
+
+        public double getTongTien(String date1, String date2)
+        {
+            string query = string.Format("select sum(tongtien) from HoaDon where GIORA between '{0}' and '{1}'", date1, date2);
+            object total = DataProvider.Instance.ExecuteScalar(query);
+            if (total != System.DBNull.Value)
+                return Convert.ToDouble(total);
+            else
+                return 0.0;
+
+        }
+        public int getSoLuongHoaDonTheoNgay(String date1, String date2)
+        {
+            return (int)DataProvider.Instance.ExecuteScalar("SELECT COUNT(*) FROM HoaDon WHERE GIORA BETWEEN @date1 AND @date2", new object[] { date1, date2 });
+        }
     }
 }

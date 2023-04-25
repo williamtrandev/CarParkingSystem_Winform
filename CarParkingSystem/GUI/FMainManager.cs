@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text.pdf;
+using System.IO;
 using BUS;
 using DTO;
+using System.Drawing.Printing;
+using System.Reflection.Metadata;
+using iTextSharp.text;
 
 namespace GUI
 {
     public partial class FMainManager : Form
     {
-        Image imgBackgroundChoose = null;  // Variable that store background image
+        System.Drawing.Image imgBackgroundChoose = null;  // Variable that store background image
         public BindingSource bs_khachhang, bs_nhanvien, bs_baigiu, bs_loaixe;
         private NhanVien nhanvien = new NhanVien();
 
@@ -49,6 +55,7 @@ namespace GUI
             loadStaff();
             loadBaiGiu();
             loadLoaiXe();
+
         }
         private void FMainManager_Resize(object sender, EventArgs e)
         {
@@ -175,7 +182,7 @@ namespace GUI
         {
             if (dgv_qlbx_qlbx.CurrentRow.Cells["MABAI"].Value.ToString() != null)
             {
-                string mabai = dgv_qlbx_qlbx.CurrentRow.Cells["MABAI"].Value.ToString();
+                int mabai = (int)dgv_qlbx_qlbx.CurrentRow.Cells["MABAI"].Value;
                 if (MessageBox.Show("Bạn có chắc chắn xóa bãi xe này không?", "Xóa bãi xe", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     bool checkRemove = BUS.BaiGiuBUS.Instance.removeBaiGiu(mabai);
@@ -356,6 +363,16 @@ namespace GUI
             dgv_qlnv.DataSource = bs_nhanvien; 
         }
 
+        private void dtp_start_bcdt_ValueChanged(object sender, EventArgs e)
+        {
+            loadHoaDon();
+        }
+
+        private void dtp_end_bcdt_ValueChanged(object sender, EventArgs e)
+        {
+            loadHoaDon();
+        }
+
         // Function that load all parking in database
         public void loadBaiGiu()
         {
@@ -364,6 +381,12 @@ namespace GUI
             bs_baigiu.DataSource = dt;
             dgv_qlbx_qlbx.DataSource = bs_baigiu;
         }
+
+        private void pb_print_bcdt_Click(object sender, EventArgs e)
+        {
+            printPDF();
+        }
+
         // Function that load all car type in database
         public void loadLoaiXe()
         {
@@ -374,17 +397,109 @@ namespace GUI
         }
         
 
-        /*public void loadHoaDon()
+        public void loadHoaDon()
         {
-            DataTable dt = BUS.HoaDonBUS.getAllHoaDon();
-        }*/
+            if (dtp_start_bcdt.Value > dtp_end_bcdt.Value)
+            {
+                MessageBox.Show("Ngày kết thúc không hợp lệ");
+                return;
+            }
+            string start = dtp_start_bcdt.Value.ToString("yyyy-MM-dd");
+            string end = dtp_end_bcdt.Value.AddDays(1).ToString("yyyy-MM-dd");
+            DataTable dt = BUS.HoaDonBUS.Instance.getAllHoaDon(start, end);
+            dgv_dshd.DataSource = dt;
+            tb_sohoadon.Text = BUS.HoaDonBUS.Instance.getSoLuongHoaDonTheoNgay(start, end).ToString();
+            tb_tongtien.Text = BUS.HoaDonBUS.Instance.getTongTien(start, end).ToString();
+        }
       
 
-        
+        public void printPDF()
+        {
+            if (dgv_dshd.Rows.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "PDF (.pdf)|.pdf";
+                sfd.FileName = "Output.pdf";
+                bool fileError = false;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(sfd.FileName))
+                    {
+                        try
+                        {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex)
+                        {
+                            fileError = true;
+                            MessageBox.Show("Không thể ghi dữ liệu tới ổ đĩa. Mô tả lỗi:" + ex.Message);
+                        }
+                    }
+                    if (!fileError)
+                    {
+                        try
+                        {
+                            PdfPTable pdfTable = new PdfPTable(dgv_dshd.Columns.Count);
+                            pdfTable.DefaultCell.Padding = 3;
+
+                            pdfTable.WidthPercentage = 100;
+                            pdfTable.HorizontalAlignment = Element.ALIGN_LEFT;
+
+
+                            pdfTable.SpacingBefore = 10f; // set the margin before the table
+                            pdfTable.SpacingAfter = 10f;
+
+                            foreach (DataGridViewColumn column in dgv_dshd.Columns)
+                            {
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                pdfTable.AddCell(cell);
+                            }
+
+                            foreach (DataGridViewRow row in dgv_dshd.Rows)
+                            {
+                                foreach (DataGridViewCell cell in row.Cells)
+                                {
+                                    //pdfTable.AddCell(cell.Value.ToString());
+                                }
+                            }
+
+                            using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                            {
+                                iTextSharp.text.Document pdfDoc = new iTextSharp.text.Document(PageSize.A4, 10f, 20f, 20f, 10f);
+                                PdfWriter.GetInstance(pdfDoc, stream);
+                                pdfDoc.Open();
+                                String text1 = "HÓA ĐƠN";
+                                Paragraph para = new Paragraph(text1);
+
+
+                                pdfDoc.Add(para);
+                                pdfDoc.Add(pdfTable);
+                                String tongtien = "Tổng tiền :" + tb_tongtien.Text.ToString();
+                                Paragraph para1 = new Paragraph(tongtien);
+                                pdfDoc.Add(para1);
+                                pdfDoc.Close();
+                                stream.Close();
+                            }
+
+                            MessageBox.Show("Dữ liệu Export thành công!!!", "Info");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Mô tả lỗi :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Không có bản ghi nào được Export!!!", "Info");
+            }
+        }
+    }
 
   
 
 
         
-    }
-}
+ }
+

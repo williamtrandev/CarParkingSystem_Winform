@@ -45,9 +45,13 @@ namespace BUS
         {
             return DAO.BaiGiuDAO.Instance.updateBaiGiu(bg);
         }
-        public bool removeBaiGiu(String mabai)
+        public bool removeBaiGiu(int mabai)
         {
             return DAO.BaiGiuDAO.Instance.removeBaiGiu(mabai);
+        }
+        public BaiGiu getDetail(int mabai)
+        {
+            return DAO.BaiGiuDAO.Instance.getDetail(mabai);
         }
     }
 }

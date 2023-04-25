@@ -91,12 +91,8 @@ namespace GUI
                     if (nhanvien.LOAINV == 0)
                     {
                         MessageBox.Show("Đăng nhập thành công! Chức năng nhân viên bãi");
-                        FMainStaff fstaff = new FMainStaff();
-                        fstaff.Nhanvien = nhanvien;
-                        this.Hide();
-                        fstaff.ShowDialog();
-                        this.Show();
-                        this.WindowState = FormWindowState.Minimized;
+                        FChonBai fc = new FChonBai(nhanvien);
+                        fc.ShowDialog();
                     }
                     else if (nhanvien.LOAINV == 1)
                     {

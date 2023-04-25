@@ -18,10 +18,10 @@ namespace GUI
         private NhanVien nhanvien = new NhanVien();
 
         public NhanVien Nhanvien { get => nhanvien; set => nhanvien = value; }
-        public FMainStaff()
+        public FMainStaff(int mabai)
         {
             InitializeComponent();
-            this.mabai = 1;
+            this.mabai = mabai;
             this.imgBackgroundChoose = Properties.Resources.background_change;
         }
         // Function to change visible attribute to false

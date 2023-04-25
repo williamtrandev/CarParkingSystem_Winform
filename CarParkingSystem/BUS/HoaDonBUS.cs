@@ -43,5 +43,13 @@ namespace BUS
         {
             return HoaDonDAO.Instance.getAllHoaDon(start, end);
         }
+        public double getTongTien(String date1, String date2)
+        {
+            return DAO.HoaDonDAO.Instance.getTongTien(date1, date2);
+        }
+        public int getSoLuongHoaDonTheoNgay(String date1, String date2)
+        {
+            return DAO.HoaDonDAO.Instance.getSoLuongHoaDonTheoNgay(date1, date2);
+        }
     }
 }

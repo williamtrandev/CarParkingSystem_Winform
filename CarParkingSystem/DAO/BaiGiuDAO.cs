@@ -58,10 +58,21 @@ namespace DAO
             String query = "UPDATE BaiGiu SET TENBAI = @TENBAI , SUCCHUA = @SUCCHUA WHERE MABAI = @MABAI";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { bg.Tenbai, bg.Succhua, bg.Mabai }) > 0;
         }
-        public bool removeBaiGiu(String mabai)
+        public bool removeBaiGiu(int mabai)
         {
             String query = "UPDATE BaiGiu SET DELETED=1 WHERE MABAI = @MABAI";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { mabai }) > 0;
+        }
+        public BaiGiu getDetail(int mabai)
+        {
+            String query = "SELECT * FROM BaiGiu WHERE DELETED=0 AND MABAI = @mabai";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { mabai });
+            if (data.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            return new BaiGiu(data.Rows[0]);
         }
     }
 }
