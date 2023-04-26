@@ -17,8 +17,6 @@ namespace DTO
         private int loaixe;
         private String giodat;
         private int tinhtrang;
-        private int sovitri;
-        private String tenloai;
         public DatChoOnline(DataRow row)
         {
             this.sdtkhachhang = row["sdtkhachhang"].ToString();
@@ -29,8 +27,6 @@ namespace DTO
             this.giodat = row["giodat"].ToString();
             this.tinhtrang = (int)row["tinhtrang"];
             this.ngaydat = (row["ngaydat"].ToString());
-            this.sovitri = (int)row["sovitri"];
-            this.tenloai = row["tenloai"].ToString();
         }
 
         public DatChoOnline()
@@ -58,6 +54,6 @@ namespace DTO
         public int Loaixe { get => loaixe; set => loaixe = value; }
         public String Giodat { get => giodat; set => giodat = value; }
         public int Tinhtrang { get => tinhtrang; set => tinhtrang = value; }
-        public int Sovitri { get => sovitri; set => sovitri = value; }
+
     }
 }

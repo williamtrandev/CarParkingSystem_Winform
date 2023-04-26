@@ -108,6 +108,7 @@
             this.Controls.Add(this.tb_phigiu_add);
             this.Controls.Add(this.tb_tenlx_add);
             this.Controls.Add(this.pb_background);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1000, 798);
             this.MinimumSize = new System.Drawing.Size(1000, 798);
             this.Name = "FAddEditCarType";

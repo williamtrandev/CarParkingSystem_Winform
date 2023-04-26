@@ -1,6 +1,5 @@
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.csproj.AssemblyReference.cache
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.FMainManager.resources
-C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.Form1.resources
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.csproj.GenerateResource.cache
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\WELCOME\Desktop\CNPM_LT_1\CarParking\CarParkingSystem\GUI\obj\Debug\net6.0-windows\GUI.AssemblyInfoInputs.cache

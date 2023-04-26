@@ -15,6 +15,7 @@ using DTO;
 using System.Drawing.Printing;
 using System.Reflection.Metadata;
 using iTextSharp.text;
+using DAO;
 
 namespace GUI
 {
@@ -291,6 +292,8 @@ namespace GUI
         {
             changeBackgroundPanel(pnl_lsrv);
             changeVisible(pnl_control_lsrv);
+            //DataTable dataTable= new DataTable();
+            dgv_lsrv.DataSource = HoaDonDAO.Instance.getAll();
         }
 
         // BCDT Functions
@@ -384,8 +387,10 @@ namespace GUI
 
         private void pb_print_bcdt_Click(object sender, EventArgs e)
         {
-            printPDF();
+            printPDF(); 
         }
+
+        
 
         // Function that load all car type in database
         public void loadLoaiXe()
@@ -410,12 +415,17 @@ namespace GUI
             dgv_dshd.DataSource = dt;
             tb_sohoadon.Text = BUS.HoaDonBUS.Instance.getSoLuongHoaDonTheoNgay(start, end).ToString();
             tb_tongtien.Text = BUS.HoaDonBUS.Instance.getTongTien(start, end).ToString();
+
+            dataGridViewTemp_listhd.Controls.Clear();
+            List<HoaDon> lisst = HoaDonDAO.Instance.gethdlist(start, end);
+            BindingList<HoaDon> bindingList = new BindingList<HoaDon>(lisst);
+            dataGridViewTemp_listhd.DataSource = bindingList;
         }
       
 
         public void printPDF()
         {
-            if (dgv_dshd.Rows.Count > 0)
+            if (dataGridViewTemp_listhd.Rows.Count > 0)
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "PDF (.pdf)|.pdf";
@@ -439,7 +449,7 @@ namespace GUI
                     {
                         try
                         {
-                            PdfPTable pdfTable = new PdfPTable(dgv_dshd.Columns.Count);
+                            PdfPTable pdfTable = new PdfPTable(dataGridViewTemp_listhd.Columns.Count);
                             pdfTable.DefaultCell.Padding = 3;
 
                             pdfTable.WidthPercentage = 100;
@@ -448,18 +458,28 @@ namespace GUI
 
                             pdfTable.SpacingBefore = 10f; // set the margin before the table
                             pdfTable.SpacingAfter = 10f;
+                            BaseFont bf = BaseFont.CreateFont(@"C:\Windows\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                            iTextSharp.text.Font font = new iTextSharp.text.Font(bf, 12);
 
                             foreach (DataGridViewColumn column in dgv_dshd.Columns)
                             {
-                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, font));
                                 pdfTable.AddCell(cell);
                             }
 
-                            foreach (DataGridViewRow row in dgv_dshd.Rows)
+                            int count = dataGridViewTemp_listhd.Rows.Count - 1;
+                            int i = 0;
+
+                            foreach (DataGridViewRow row in dataGridViewTemp_listhd.Rows)
                             {
                                 foreach (DataGridViewCell cell in row.Cells)
                                 {
-                                    //pdfTable.AddCell(cell.Value.ToString());
+                                    pdfTable.AddCell(new Phrase(cell.Value.ToString(), font));
+                                }
+                                i++;
+                                if (count == i)
+                                {
+                                    break;
                                 }
                             }
 
@@ -469,13 +489,13 @@ namespace GUI
                                 PdfWriter.GetInstance(pdfDoc, stream);
                                 pdfDoc.Open();
                                 String text1 = "HÓA ĐƠN";
-                                Paragraph para = new Paragraph(text1);
+                                Paragraph para = new Paragraph(text1, font);
 
 
                                 pdfDoc.Add(para);
                                 pdfDoc.Add(pdfTable);
-                                String tongtien = "Tổng tiền :" + tb_tongtien.Text.ToString();
-                                Paragraph para1 = new Paragraph(tongtien);
+                                String tongtien = "Tổng tiền: " + tb_tongtien.Text.ToString();
+                                Paragraph para1 = new Paragraph(tongtien, font);
                                 pdfDoc.Add(para1);
                                 pdfDoc.Close();
                                 stream.Close();

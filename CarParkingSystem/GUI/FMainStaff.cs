@@ -1,4 +1,7 @@
-﻿using DTO;
+﻿using BUS;
+using DAO;
+using DTO;
+using iTextSharp.text.pdf.codec;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +14,14 @@ using System.Windows.Forms;
 
 namespace GUI
 {
+    /// <summary>
+    /// USECASE 1:
+    /// Khách hàng đặt vị trí onl tại bãi 2, vị trí 1, loại xe là xe tải, Nhân viên duyệt đơn. 
+    /// Sau đó khách hàng đến bãi để vào hệ thống. Kết quả của testcase là vị trí 1, và loại xe là xe tải.
+    /// USECASE 2:
+    /// Khách hàng đặt vị trí onl tại bãi 1, vị trí 3, loại xe là xe hơi, Nhân viên duyệt đơn.
+    /// Sau đó khách hàng đến bãi để vào hệ thống. Kết quả là vị trí 1, loại xe là xe tải.
+    /// </summary>
     public partial class FMainStaff : Form
     {
         Image imgBackgroundChoose = null;  // Variable that store background image
@@ -81,6 +92,7 @@ namespace GUI
             loadTheRa(this.mabai);
             loadDonDatCho(this.mabai);
             loadVitri(this.mabai);
+            loadLoaiXe();
             changeSize();
         }
         void loadCar(int mabai)
@@ -129,7 +141,8 @@ namespace GUI
         }
         void loadTheVao(int mabai)
         {
-            DataTable dt = BUS.TheBUS.Instance.getAllTheVao(mabai);
+            //DataTable dt = BUS.TheBUS.Instance.getAllTheVao__(mabai);
+            DataTable dt = TheDAO.Instance.getAllTheVao__(mabai);
             List<SupportThe> items = new List<SupportThe>();
             foreach(DataRow dr in dt.Rows)
             {
@@ -156,6 +169,7 @@ namespace GUI
             List<ViTri> lvt = BUS.ViTriBUS.Instance.getVitrisTheoMaBai(mabai);
             cb_vitri.DataSource = lvt;
             cb_vitri.DisplayMember = "sovitri";
+            cb_vitri.SelectedIndex = -1;
         }
         private void lb_dsxtb_Click(object sender, EventArgs e)
         {
@@ -256,9 +270,27 @@ namespace GUI
             return false;
         }
 
-        private void btn_choxevao_Click(object sender, EventArgs e)
+        public int getIDVitrTheoTen(String tenvitri, int mabai)
         {
-            if(tb_biensovao.Text.Trim() != "")
+            List<ViTri> lvt = BUS.ViTriBUS.Instance.getVitrisTheoMaBai(mabai);
+            int sovitri = Int32.Parse(cb_vitri.Text.ToString());
+            foreach (ViTri vitri in lvt)
+            {
+                if (vitri.SOVITRI ==  sovitri)
+                {
+                    return vitri.ID_VITRI;
+                }
+            }
+            return 0;
+        }
+
+
+        
+
+
+private void btn_choxevao_Click(object sender, EventArgs e)
+        {
+            if(tb_biensovao.Text.Trim() != "" && tb_biensovao.Text!= "" && cb_thevao.SelectedIndex!=-1 && cb_vitri.SelectedIndex != -1 && cb_loaixe.SelectedIndex != -1)
             {
                 The the = new The();
                 SupportThe selectedItem = (SupportThe)cb_thevao.SelectedItem;
@@ -266,18 +298,32 @@ namespace GUI
                 the.BIENSOXE = tb_biensovao.Text.ToString();
                 the.GIOVAO = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 the.TRANGTHAI = 1;
+                SupportLoaiXe splx = (SupportLoaiXe)cb_loaixe.SelectedItem;
+                the.MALOAIXE = splx.Maloai;
                 if(tb_sdt.Text.Trim() != "")
                 {
                     the.SDTKH = tb_sdt.Text.ToString();
                 }
                 bool checkUpdate = BUS.TheBUS.Instance.updateThe(the);
+
+                int vitri = getIDVitrTheoTen("ok", mabai);
+                bool checkchoxevaovitri = ViTriBUS.Instance.changeStateVitriDatCho(vitri);
+                bool checksothe = TheDAO.Instance.updateThe_vitri(vitri, the.SOTHE);
+                // set vitri
+                bool checkVitri = BUS.ViTriBUS.Instance.changeStateVitriDatCho(vitri);
+                DatChoOnline dco = BUS.DatChoOnlineBUS.Instance.getDetail(tb_sdt.Text.ToString(), this.mabai);
+
+                // xoadon online
+                bool deleteDon = DAO.DatChoOnlineDAO.Instance.deleteDon(dco.Madon);
                 if (checkUpdate)
                 {
                     MessageBox.Show("Cho xe vào bãi", "Thông báo");
                     loadTheVao(this.mabai);
                     loadTheRa(this.mabai);
+                    loadVitri(this.mabai);
                     tb_biensovao.Clear();
                     tb_sdt.Clear();
+                    loadLoaiXe();
                 }
             } else
             {
@@ -312,9 +358,60 @@ namespace GUI
             }
         }
 
+        private int tenVitri(int idvitri)
+        {
+            List<ViTri> lvt = BUS.ViTriBUS.Instance.getVitrisTheoMaBai(mabai);
+            foreach (ViTri v in lvt)
+            {
+                if(v.ID_VITRI == idvitri)
+                {
+                    return v.SOVITRI;
+                }
+            }
+            return - 1;
+        }
+
+        private String tenLoaiXE(int idvitri)
+        {
+            List<LoaiXe> lvt = LoaiXeBUS.Instance.getAllLoaiXe();
+            foreach (LoaiXe v in lvt)
+            {
+                if (v.Maloai == idvitri)
+                {
+                    return v.Tenloaixe;
+                }
+            }
+            return "";
+        }
+        
         private void btn_xedattruoc_Click(object sender, EventArgs e)
         {
-            tb_sdt.Enabled = true;
+            string sdtkh = tb_sdt.Text.ToString();
+            DatChoOnline dco = BUS.DatChoOnlineBUS.Instance.getDetail(sdtkh, this.mabai);
+            if(dco != null)
+            {
+                int id_vitri = dco.Id_vitri;
+                string loaixe = dco.Loaixe.ToString();
+                String mabai = dco.Mabai.ToString();
+                int madon = dco.Madon;
+                The the = new The();
+                the.ID_VITRI = id_vitri;
+                the.SDTKH = sdtkh;
+                the.BIENSOXE = tb_biensovao.Text.ToString();
+                the.TRANGTHAI = 1;
+                string ngay = dco.Ngaydat;
+                String[] strings = dco.Giodat.Split('h');
+                String ngays = Convert.ToDateTime(ngay).ToString("yyyy/MM/dd");
+                the.GIOVAO = ngays + " " +  strings[0] + ":" + strings[1] +":00";
+
+
+                cb_vitri.Text = tenVitri(dco.Id_vitri).ToString();
+                cb_loaixe.Text = tenLoaiXE(dco.Loaixe).ToString();
+
+                //e.GIOVAO = dco.Giodat
+
+                
+            }
         }
 
         private void FMainStaff_Resize(object sender, EventArgs e)
@@ -322,12 +419,79 @@ namespace GUI
             changeSize();
         }
 
-        /*private void btn_morao_Click(object sender, EventArgs e)
+        private The getIdThe()
         {
-            SupportThe selectedItem = (SupportThe)cb_thera.SelectedItem;
-            int sothe = selectedItem.Sothe;
-            The the = BUS.TheBUS.Instance.getDetail(sothe);
-            bool checkInsert = BUS.HoaDonBUS.Instance.insertHoaDon(the.SDTKH, this.nv.SDT, );
-        }*/
+            List<The> listThe = TheDAO.Instance.getallthelist();
+            foreach (The the in listThe)
+            {
+                if (the.TENTHE.Equals(tb_sothedoichieu.Text.ToString())){
+                    return the;
+                }
+            }
+            return null;
+        }
+
+        private void btn_morao_Click(object sender, EventArgs e)
+        {
+            // update state of the
+            The the = getIdThe();
+            int idthe = the.SOTHE;
+            int idvitri = the.ID_VITRI;
+
+            TheDAO.Instance.update(idvitri, idthe);
+            String sdtkh = the.SDTKH;
+            String nvthu = nhanvien.SDT;
+            int maloaixe = the.MALOAIXE;
+            String giovao = the.GIOVAO;
+            String giora = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            bool checkInsertHoaDon = BUS.HoaDonBUS.Instance.insertHoaDon(sdtkh, nvthu, maloaixe, idvitri, giovao, giora);
+            if(!checkInsertHoaDon)
+            {
+                MessageBox.Show("Đã có lỗi xảy ra");
+            } else
+            {
+                MessageBox.Show("Xe ra bãi");
+                btn_morao.Enabled = false;
+                tb_bsdoichieu.Clear();
+                tb_sothedoichieu.Clear();
+                tb_tgvao.Clear();
+            }
+            // insert into hoadon
+          //  if (MessageBox.Show("Bạn có muốn in hóa đơn không?", "In hóa đơn", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //{
+                
+           // }
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        void loadLoaiXe()
+        {
+            DataTable dt = BUS.LoaiXeBUS.Instance.getAllLoaiXeDT();
+            List<SupportLoaiXe> items = new List<SupportLoaiXe>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                items.Add(new SupportLoaiXe { Maloai = (int)dr["MALOAI"], Tenloai = dr["TENLOAI"].ToString(), Phigiu = (double)dr["PHIGIU"] });
+            }
+            cb_loaixe.DataSource = items;
+            cb_loaixe.DisplayMember = "TENLOAI";
+            cb_loaixe.SelectedIndex = -1;
+
+        }
+
+        private void lb_dangxuat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

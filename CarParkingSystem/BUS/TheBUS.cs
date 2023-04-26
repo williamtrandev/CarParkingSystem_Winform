@@ -43,7 +43,7 @@ namespace BUS
         }
         public bool updateThe(The the)
         {
-            return DAO.TheDAO.Instance.updateThe(the.SOTHE, the.BIENSOXE, the.GIOVAO, the.TRANGTHAI);
+            return DAO.TheDAO.Instance.updateThe(the.SOTHE, the.BIENSOXE, the.GIOVAO, the.TRANGTHAI, the.MALOAIXE);
         }
     }
 }

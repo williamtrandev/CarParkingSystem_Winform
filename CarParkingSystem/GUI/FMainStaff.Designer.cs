@@ -59,6 +59,8 @@
             this.pnl_wrapper = new System.Windows.Forms.Panel();
             this.pnl_left = new System.Windows.Forms.Panel();
             this.pnl_info_left = new System.Windows.Forms.Panel();
+            this.cb_loaixe = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btn_xedattruoc = new System.Windows.Forms.Button();
             this.cb_vitri = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -388,6 +390,7 @@
             this.lb_dangxuat.Size = new System.Drawing.Size(151, 28);
             this.lb_dangxuat.TabIndex = 2;
             this.lb_dangxuat.Text = "          Đăng xuất";
+            this.lb_dangxuat.Click += new System.EventHandler(this.lb_dangxuat_Click);
             // 
             // pnl_main_content
             // 
@@ -457,6 +460,8 @@
             // 
             // pnl_info_left
             // 
+            this.pnl_info_left.Controls.Add(this.cb_loaixe);
+            this.pnl_info_left.Controls.Add(this.label3);
             this.pnl_info_left.Controls.Add(this.btn_xedattruoc);
             this.pnl_info_left.Controls.Add(this.cb_vitri);
             this.pnl_info_left.Controls.Add(this.label9);
@@ -470,8 +475,30 @@
             this.pnl_info_left.Controls.Add(this.label12);
             this.pnl_info_left.Location = new System.Drawing.Point(0, 125);
             this.pnl_info_left.Name = "pnl_info_left";
-            this.pnl_info_left.Size = new System.Drawing.Size(486, 513);
+            this.pnl_info_left.Size = new System.Drawing.Size(486, 553);
             this.pnl_info_left.TabIndex = 9;
+            // 
+            // cb_loaixe
+            // 
+            this.cb_loaixe.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_loaixe.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cb_loaixe.FormattingEnabled = true;
+            this.cb_loaixe.Location = new System.Drawing.Point(172, 358);
+            this.cb_loaixe.Name = "cb_loaixe";
+            this.cb_loaixe.Size = new System.Drawing.Size(221, 43);
+            this.cb_loaixe.TabIndex = 23;
+            this.cb_loaixe.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(29, 361);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 30);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "Loại xe";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btn_xedattruoc
             // 
@@ -489,7 +516,7 @@
             this.cb_vitri.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_vitri.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cb_vitri.FormattingEnabled = true;
-            this.cb_vitri.Location = new System.Drawing.Point(172, 261);
+            this.cb_vitri.Location = new System.Drawing.Point(172, 200);
             this.cb_vitri.Name = "cb_vitri";
             this.cb_vitri.Size = new System.Drawing.Size(221, 43);
             this.cb_vitri.TabIndex = 20;
@@ -498,7 +525,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label9.Location = new System.Drawing.Point(29, 264);
+            this.label9.Location = new System.Drawing.Point(29, 203);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(63, 30);
             this.label9.TabIndex = 19;
@@ -508,9 +535,8 @@
             // 
             this.tb_sdt.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_sdt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tb_sdt.Enabled = false;
             this.tb_sdt.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tb_sdt.Location = new System.Drawing.Point(173, 367);
+            this.tb_sdt.Location = new System.Drawing.Point(173, 283);
             this.tb_sdt.Name = "tb_sdt";
             this.tb_sdt.Size = new System.Drawing.Size(220, 41);
             this.tb_sdt.TabIndex = 17;
@@ -520,7 +546,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(24, 369);
+            this.label6.Location = new System.Drawing.Point(24, 285);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 30);
             this.label6.TabIndex = 18;
@@ -529,7 +555,7 @@
             // btn_choxevao
             // 
             this.btn_choxevao.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_choxevao.Location = new System.Drawing.Point(248, 449);
+            this.btn_choxevao.Location = new System.Drawing.Point(256, 447);
             this.btn_choxevao.Name = "btn_choxevao";
             this.btn_choxevao.Size = new System.Drawing.Size(145, 58);
             this.btn_choxevao.TabIndex = 16;
@@ -543,7 +569,7 @@
             this.label22.Dock = System.Windows.Forms.DockStyle.Right;
             this.label22.Location = new System.Drawing.Point(484, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(2, 513);
+            this.label22.Size = new System.Drawing.Size(2, 553);
             this.label22.TabIndex = 15;
             // 
             // tb_biensovao
@@ -551,7 +577,7 @@
             this.tb_biensovao.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_biensovao.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_biensovao.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tb_biensovao.Location = new System.Drawing.Point(175, 49);
+            this.tb_biensovao.Location = new System.Drawing.Point(175, 37);
             this.tb_biensovao.Name = "tb_biensovao";
             this.tb_biensovao.Size = new System.Drawing.Size(218, 41);
             this.tb_biensovao.TabIndex = 9;
@@ -562,7 +588,7 @@
             this.cb_thevao.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_thevao.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cb_thevao.FormattingEnabled = true;
-            this.cb_thevao.Location = new System.Drawing.Point(175, 155);
+            this.cb_thevao.Location = new System.Drawing.Point(175, 117);
             this.cb_thevao.Name = "cb_thevao";
             this.cb_thevao.Size = new System.Drawing.Size(218, 43);
             this.cb_thevao.TabIndex = 13;
@@ -571,7 +597,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label10.Location = new System.Drawing.Point(31, 50);
+            this.label10.Location = new System.Drawing.Point(31, 38);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(88, 30);
             this.label10.TabIndex = 10;
@@ -581,7 +607,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(29, 158);
+            this.label12.Location = new System.Drawing.Point(29, 120);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(80, 30);
             this.label12.TabIndex = 11;
@@ -787,6 +813,7 @@
             this.btn_morao.TabIndex = 18;
             this.btn_morao.Text = "Mở rào";
             this.btn_morao.UseVisualStyleBackColor = true;
+            this.btn_morao.Click += new System.EventHandler(this.btn_morao_Click);
             // 
             // tb_bsdoichieu
             // 
@@ -1053,8 +1080,9 @@
             this.ClientSize = new System.Drawing.Size(1812, 820);
             this.Controls.Add(this.pnl_main_content);
             this.Controls.Add(this.pnl_sidebar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FMainStaff";
-            this.Text = "FMainStaff";
+            this.Text = "Trang nhân viên";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FMainStaff_Load);
             this.Resize += new System.EventHandler(this.FMainStaff_Resize);
@@ -1185,5 +1213,7 @@
         private Label label2;
         private Button btn_xedattruoc;
         private Panel pnl_wrapper;
+        private ComboBox cb_loaixe;
+        private Label label3;
     }
 }

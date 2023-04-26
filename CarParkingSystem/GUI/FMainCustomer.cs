@@ -19,11 +19,13 @@ namespace GUI
     public partial class FMainCustomer : Form
     {
         public BindingSource bs_hd_kh, bs_datchoonline;
+        Image imgBackgroundChoose = null;
         public FMainCustomer()
         {
             InitializeComponent();
             bs_hd_kh = new BindingSource();
             bs_datchoonline = new BindingSource();
+            this.imgBackgroundChoose = Properties.Resources.background_change;
         }
         private void FUser_Load(object sender, EventArgs e)
         {
@@ -31,19 +33,37 @@ namespace GUI
             LoadInfo();
             loadViewParkingLot(Listbaigiuxe);
             loadLoaiXe();
-
+            CenterTheBox();
             panel_datchoonline.Visible = true;
             panel34_UserInfo.Visible = false;
-
+            label32.Parent = panel23;
+            label32.BackColor = Color.Transparent;
+            label1.Parent = panel1;
+            label1.BackColor = Color.Transparent;
             // ==============
             //load_donhangonline();
 
-
-
+            int width = (int)(panel41.Width*0.8);
+            pnl_content.Width= width;
+            pnl_content.Height = panel41.Height;
+            int x = (panel41.Width-pnl_content.Width)/2;
+            pnl_content.Margin = new Padding(x,0,0,0);
+            int width_panel = (int)panel9.Width;
+            panel13.Location = new Point((width_panel - panel13.Width) /2, 0);
+            label11.Location = new Point((width_panel - label11.Width) / 2, 20);
 
         }
 
-
+        private void CenterTheBox()
+        {
+            var left_ls = panel37.ClientRectangle.Width / 2 - (pb_history.ClientRectangle.Width / 2);
+            var left_info = panel37.ClientRectangle.Width / 2 - (pb_history.ClientRectangle.Width + pb_history.ClientRectangle.Width / 2 + 30);
+            var left_dsdc = panel37.ClientRectangle.Width / 2 + (pb_history.ClientRectangle.Width / 2 + 30);
+            var top = (panel37.ClientRectangle.Height - pb_history.ClientRectangle.Height) / 2;
+            pb_history.Location = new Point(panel37.ClientRectangle.Location.X + left_ls, panel37.ClientRectangle.Location.Y + top);
+            pb_info_user.Location = new Point(panel37.ClientRectangle.Location.X + left_info, panel37.ClientRectangle.Location.Y + top);
+            pb_dsdc.Location = new Point(panel37.ClientRectangle.Location.X + left_dsdc, panel37.ClientRectangle.Location.Y + top);
+        }
         #region Attribute
 
         private KhachHang khachhang = new KhachHang();
@@ -109,7 +129,8 @@ namespace GUI
                 }
                 int result = KhachHangBUS.Instance.updateInFoKH(Khachhang.SDT, textBox_ten.Text.ToString(), textBox_xacnhanmkmoi.Text.ToString());
                 khachhang.PASS = textBox_xacnhanmkmoi.Text.ToString();
-                MessageBox.Show("Success");
+                MessageBox.Show("Thành Công");
+                LoadInfo();
             }
             else
             {
@@ -122,6 +143,7 @@ namespace GUI
                 }
                 int result = KhachHangBUS.Instance.updateInFoKH(Khachhang.SDT, textBox_ten.Text.ToString(), khachhang.PASS);
                 MessageBox.Show("Success!");
+                LoadInfo();
             }
         }
 
@@ -194,7 +216,7 @@ namespace GUI
         {
             try
             {
-                
+
                 int maloaixe_ = maloaixe();
                 int mabai = Int32.Parse(tb_tenbai.Tag.ToString());
                 int mavitri = Int32.Parse(textBox_tenvitri.Tag.ToString());
@@ -202,46 +224,71 @@ namespace GUI
                 String ngaydat = dateTimePicker_ngaydat.Value.ToString("yyyy-MM-dd");
                 String giodat = textBox_giodat.Text.ToString();
 
-                if (dateTimePicker_ngaydat.Value.Date < DateTime.Today)
+                if (mabai == 0 || mavitri == 0 || sdt.Equals("") || giodat.Equals(""))
                 {
-                    MessageBox.Show("ngày Đặt Hiện Không Khả Dụng! Vui Lòng Chọn Lại"); 
-                    {
-                        MessageBox.Show("Error!");
-                        return;
-                    }
+                    MessageBox.Show("Error!");
                     return;
                 }
-                else if(dateTimePicker_ngaydat.Value.Date == DateTime.Today)
+
+                Char value1 = 'h';
+
+                int count1 = 0;
+                foreach (char c in giodat)
+                    if (c == 'h') count1++;
+
+                if (!giodat.Contains(value1) || count1 > 1)
                 {
-                    Char value1 = 'h';
-                    if (!giodat.Contains(value1))
-                    {
-                        MessageBox.Show("Lỗi Cú Pháp!");
-                        return;
-                    }
-                    else
-                    {
+                    MessageBox.Show("Lỗi Cú Pháp Giờ!");
+                    return;
+                }
+                String[] items = giodat.Split("h");
 
 
-                    }
-                    String[] items = giodat.Split("h");
+                int gio = -1;
+                int phut = -1;
+                try
+                {
+                    gio = Int32.Parse(items[0]);
+                    phut = Int32.Parse(items[1]);
+                }
+                catch (Exception ec)
+                {
+                    MessageBox.Show("Lỗi Giờ");
+                    return;
+                }
+
+
+                if (dateTimePicker_ngaydat.Value.Date < DateTime.Today)
+                {
+                    MessageBox.Show("ngày Đặt Hiện Không Khả Dụng! Vui Lòng Chọn Lại");
+
+                    return;
+                }
+                else if (dateTimePicker_ngaydat.Value.Date == DateTime.Today)
+                {
+
+
                     try
                     {
-                        int gio = Int32.Parse(items[0]);
-                        int phut = Int32.Parse(items[1]);
+
+                        if (gio < 0 || phut < 0)
+                        {
+                            MessageBox.Show("Lỗi Cú Pháp Giờ!");
+                            return;
+                        }
                         TimeSpan currentTime = DateTime.Now.TimeOfDay;
                         int gioht = Int32.Parse(currentTime.Hours.ToString());
                         int phutht = Int32.Parse(currentTime.Minutes.ToString());
 
-                        if(gio < gioht)
+                        if (gio < gioht)
                         {
                             MessageBox.Show("Error! Check thông tin đặt!");
                             return;
                         }
 
-                        if(gio == gioht)
+                        if (gio == gioht)
                         {
-                            if(phut < phutht)
+                            if (phut < phutht)
                             {
                                 MessageBox.Show("Error! Check thông tin đặt!");
                                 return;
@@ -255,40 +302,25 @@ namespace GUI
                         return;
                     }
                 }
-
-                if (mabai == 0 || mavitri == 0 || sdt.Equals("") || giodat.Equals(""))
-                {
-                    MessageBox.Show("Error!");
-                    return;
-                }
-                Char value = 'h';
-                if (!giodat.Contains(value))
-                {
-                    MessageBox.Show("Lỗi Cú Pháp!");
-                    return;
-                }
-                else
-                {
+                // ====
 
 
-                }
 
-                int result = DatChoOnlineBUS.Instance.insertDatCHoOnline(sdt, mavitri, mabai, ngaydat, maloaixe_,giodat);
-                MessageBox.Show("Đặt CHỗ Thành Công! Chờ Xác Nhận Của Nhân Viên Bãi Xe!");
+
+
+                int result = DatChoOnlineBUS.Instance.insertDatCHoOnline(sdt, mavitri, mabai, ngaydat, maloaixe_, giodat);
+                MessageBox.Show("Đặt Chỗ Thành Công! Chờ Xác Nhận Của Nhân Viên Bãi Xe!");
 
             }
-            catch(Exception ec)
+            catch (Exception ec)
             {
                 MessageBox.Show("Error!");
                 return;
             }
-            
 
-            
 
 
         }
-
 
 
         #endregion
@@ -354,7 +386,7 @@ namespace GUI
             Listbaigiuxe = BaiGiuBUS.Instance.getallBaiGiuXe();
             ListLoaiXe = LoaiXeBUS.Instance.getAllLoaiXe();
             panel_chualistvitrixeMain.Controls.Clear();
-            Khachhang = KhachHangBUS.Instance.checkAccount("111111111", "123");
+            //Khachhang = KhachHangBUS.Instance.checkAccount("111111111", "123");
             textBox_diem.Text = khachhang.DIEMTICHLUY.ToString();
             textBox_matkhau.Text = khachhang.PASS.ToString();
             textBox_sdt.Text = khachhang.SDT;
@@ -369,6 +401,9 @@ namespace GUI
             int checksoluongbai = 0;
             int check = 0;
             int y = 20;
+            Panel pnl = new Panel();
+            pnl.Width = (int)(panel_chualistvitrixeMain.Width * 0.8);
+            pnl.Height = (int)(panel_chualistvitrixeMain.Height);
             while (true)
             {
                 if (checksoluongbai == soluongbai)
@@ -390,7 +425,7 @@ namespace GUI
                     Height = 75
                 };
 
-                picture.Image = GUI.Properties.Resources.parking_car;
+                picture.Image = GUI.Properties.Resources.location_car;
                 //picture.Image = Image.FromFile("E:\\Documents\\OneDrive - student.tdtu.edu.vn\\Desktop\\CarParking\\CarParkingSystem_Winform\\CarParkingSystem\\GUI\\Resources\\spaces.png");
                 picture.Dock = DockStyle.Left;
                 picture.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -438,11 +473,14 @@ namespace GUI
                 }
                 loadInfoParkingLot(panel, picture, label, list[checksoluongbai]);
                 checksoluongbai++;
-                panel_listchuabaixe.Controls.Add(panel);
-                panel.Parent = panel_listchuabaixe;
-
+                //panel_listchuabaixe.Controls.Add(panel);
+                pnl.Controls.Add(panel);
+                //panel.Parent = panel_listchuabaixe;
+                panel.Parent = pnl;
             }
-
+            //panel_listchuabaixe.Controls.Add(pnl);
+            pnl.Location = new Point((panel_listchuabaixe.Width - pnl.Width) / 2, 0);
+            panel_listchuabaixe.Controls.Add(pnl);
         }
 
         private void loadViewLocationCar(List<ViTri> list)
@@ -452,6 +490,9 @@ namespace GUI
             int checksoluongvitri = 0;
             int check = 0;
             int y = 30;
+            Panel pnl = new Panel();
+            pnl.Width = (int) (panel_chualistvitrixeMain.Width*0.8);
+            pnl.Height = (int) (panel_chualistvitrixeMain.Height);
             while (true)
             {
                 if (checksoluongvitri == soluongvitri)
@@ -473,7 +514,7 @@ namespace GUI
                     Height = 66
                 };
 
-                picture.Image = GUI.Properties.Resources.location_car;
+                picture.Image = GUI.Properties.Resources.car_parking;
                 //picture.Image = Image.FromFile("E:\\Documents\\OneDrive - student.tdtu.edu.vn\\Desktop\\CarParking\\CarParkingSystem_Winform\\CarParkingSystem\\GUI\\Resources\\parking-car.png");
                 picture.Dock = DockStyle.Top;
                 picture.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -527,10 +568,15 @@ namespace GUI
                 }
                 loadInfoLocationCar(panel, picture, label, list[checksoluongvitri]);
                 checksoluongvitri++;
-                panel_chualistvitrixeMain.Controls.Add(panel);
-                panel.Parent = panel_chualistvitrixeMain;
+                //panel_chualistvitrixeMain.Controls.Add(panel);
+                pnl.Controls.Add(panel);
+                //panel.Parent = panel_chualistvitrixeMain;
+                panel.Parent = pnl;
 
             }
+            pnl.Location = new Point(panel_chualistvitrixeMain.Width/2-pnl.Width/2, 0);
+            pnl.AutoScroll= true;
+            panel_chualistvitrixeMain.Controls.Add(pnl);
         }
 
         private void loadInfoParkingLot(Panel panel, PictureBox pic, Label label, BaiGiu bai) 
@@ -542,13 +588,13 @@ namespace GUI
             panel.Tag = bai.Mabai;
             pic.Tag = bai.Mabai;
             label.Tag = bai.Mabai;
+            panel.Cursor = Cursors.Hand;
         }
 
         private void lb_datchoonline_Click(object sender, EventArgs e)
         {
-            panel_datchoonline.Visible = true;
-            panel34_UserInfo.Visible = false;
-            loadViewParkingLot(Listbaigiuxe);
+            
+
         }
 
 
@@ -560,8 +606,9 @@ namespace GUI
             panelinfo.Visible = true;
             panel36_danhsachDatOnline.Visible = false;
             panel_mainLichSuGuiXe.Visible = false;
-
-
+            panel1.BackgroundImage = this.imgBackgroundChoose;
+            panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel23.BackgroundImage = base.BackgroundImage;
         }
 
 
@@ -600,6 +647,8 @@ namespace GUI
         {
             panel_datchoonline.Visible = true;
             panel34_UserInfo.Visible = false;
+            panel32.BackgroundImage = imgBackgroundChoose;
+            panel1.BackgroundImage = base.BackgroundImage;
         }
 
   
@@ -611,6 +660,8 @@ namespace GUI
             panelinfo.Visible = true;
             panel36_danhsachDatOnline.Visible = false;
             panel_mainLichSuGuiXe.Visible = false;
+            panel1.BackgroundImage= imgBackgroundChoose;
+            panel32.BackgroundImage = base.BackgroundImage;
         }
 
 
@@ -625,6 +676,27 @@ namespace GUI
 
         private void panel38_Click(object sender, EventArgs e)
         {
+           
+        }
+
+        private void pb_info_user_Click(object sender, EventArgs e)
+        {
+            panelinfo.Visible = true;
+            panel36_danhsachDatOnline.Visible = false;
+            panel_mainLichSuGuiXe.Visible = false;
+            LoadInfo();
+        }
+
+        private void pb_history_Click(object sender, EventArgs e)
+        {
+            panelinfo.Visible = false;
+            panel36_danhsachDatOnline.Visible = false;
+            panel_mainLichSuGuiXe.Visible = true;
+            loadhd_kh();
+        }
+
+        private void pb_dsdc_Click(object sender, EventArgs e)
+        {
             panelinfo.Visible = false;
             panel_datchoonline.Visible = false;
             panel36_danhsachDatOnline.Visible = true;
@@ -633,18 +705,35 @@ namespace GUI
             load_donhangonline();
         }
 
+        private void label32_Click_1(object sender, EventArgs e)
+        {
+            panel_datchoonline.Visible = true;
+            panel34_UserInfo.Visible = false;
+            loadViewParkingLot(Listbaigiuxe);
+            panel23.BackgroundImage = this.imgBackgroundChoose;
+            panel23.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.BackgroundImage = base.BackgroundImage;
+        }
+
+        private void lb_dangxuat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+     
+
         private void loadInfoLocationCar(Panel panel, PictureBox pic, Label label, ViTri vitri)
         {
             if(vitri.TINHTRANG == 1)
             {
-                panel.BackColor = Color.Red;
+                panel.BackColor = Color.Turquoise;
                 panel.Enabled = false;
                 pic.Enabled = false;
                 label.Enabled = false;
             }
             else if (vitri.TINHTRANG == 2)
             {
-                panel.BackColor = Color.YellowGreen;
+                panel.BackColor = Color.Bisque;
                 panel.Enabled = false;
                 pic.Enabled = false;
                 label.Enabled = false;

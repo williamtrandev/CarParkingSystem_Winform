@@ -9,10 +9,10 @@ namespace DTO
 {
     public class The
     {
-        private int sothe, id_vitri, trangthai;
+        private int sothe, id_vitri, trangthai, maloaixe;
         private string tenthe, biensoxe, giovao, sdtkh;
 
-        public The(int sothe, string tenthe, int id_vitri, string biensoxe, int trangthai, string giovao, string sdtkh)
+        public The(int sothe, string tenthe, int id_vitri, string biensoxe, int trangthai, string giovao, string sdtkh, int maloaixe)
         {
             this.sothe = sothe;
             this.tenthe = tenthe;
@@ -21,6 +21,7 @@ namespace DTO
             this.trangthai = trangthai;
             this.giovao= giovao;
             this.sdtkh= sdtkh;
+            this.maloaixe = maloaixe;
         }
 
         public The()
@@ -30,11 +31,12 @@ namespace DTO
         {
             this.sothe = (int) row["sothe"];
             this.tenthe = row["tenthe"].ToString();
-            this.id_vitri = (int) row["id_vitri"];
+            this.id_vitri =  Int32.Parse(row["id_vitri"].ToString());
             this.biensoxe = row["biensoxe"].ToString();
             this.trangthai = (int) row["trangthai"];
             this.giovao = row["giovao"].ToString();
             this.sdtkh = row["sdtkh"].ToString();
+            this.maloaixe = (int)row["maloaixe"];
         }
         public int SOTHE { get => sothe; set => sothe = value; }
         public string TENTHE { get => tenthe; set => tenthe = value; }
@@ -43,5 +45,6 @@ namespace DTO
         public int TRANGTHAI { get => trangthai; set => trangthai = value; }
         public string GIOVAO { get => giovao; set => giovao = value; }
         public string SDTKH { get => sdtkh; set => sdtkh = value; }
+        public int MALOAIXE { get => maloaixe; set => maloaixe = value; }
     }
 }

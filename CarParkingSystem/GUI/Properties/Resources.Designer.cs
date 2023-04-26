@@ -107,20 +107,12 @@ namespace GUI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        internal static System.Drawing.Bitmap parking_car
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("parking_car", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-
-        }
+        
         internal static System.Drawing.Bitmap location_car
         {
             get
             {
-                object obj = ResourceManager.GetObject("spaces", resourceCulture);
+                object obj = ResourceManager.GetObject("parking-car", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

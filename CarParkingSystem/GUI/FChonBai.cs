@@ -35,7 +35,6 @@ namespace GUI
             {
                 SupportBaiGiu sp = (SupportBaiGiu)cb_chonbai.SelectedItem;
                 FMainStaff fstaff = new FMainStaff(sp.Mabai);
-                MessageBox.Show(sp.Mabai.ToString());
                 fstaff.Nhanvien = this.nv;
                 this.Hide();
                 fstaff.ShowDialog();
@@ -45,6 +44,11 @@ namespace GUI
             {
                 MessageBox.Show("Vui lòng chọn bãi");
             }
+        }
+
+        private void FChonBai_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

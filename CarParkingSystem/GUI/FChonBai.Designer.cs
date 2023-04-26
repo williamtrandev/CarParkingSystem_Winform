@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FChonBai));
             this.label1 = new System.Windows.Forms.Label();
             this.cb_chonbai = new System.Windows.Forms.ComboBox();
             this.btn_chonbai = new System.Windows.Forms.Button();
@@ -74,9 +75,11 @@
             this.Controls.Add(this.btn_chonbai);
             this.Controls.Add(this.cb_chonbai);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FChonBai";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chọn bãi xe";
+            this.Load += new System.EventHandler(this.FChonBai_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

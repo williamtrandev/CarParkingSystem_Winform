@@ -55,5 +55,9 @@ namespace BUS
         {
             return DatChoOnlineDAO.Instance.deleteDon(madon, sdt);
         }
+        public DatChoOnline getDetail(String sdtkh, int mabai)
+        {
+            return DAO.DatChoOnlineDAO.Instance.getDetail(sdtkh, mabai);
+        }
     }
 }

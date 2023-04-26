@@ -40,6 +40,13 @@ namespace DAO
             String query = "lichsudatchokh @sdtkh";
             return DataProvider.Instance.ExecuteQuery(query, new object[] { sdtkh });
         }
+
+        public DataTable getAll()
+        {
+            String query = "select mahd, sodtkh, giora, nvthu from hoadon";
+            return DataProvider.Instance.ExecuteQuery(query);
+        }
+
         public DataTable getAllHoaDon(String start, String end) 
         {
             string query = "exec getAllHoaDon @start , @end";
@@ -59,6 +66,22 @@ namespace DAO
         public int getSoLuongHoaDonTheoNgay(String date1, String date2)
         {
             return (int)DataProvider.Instance.ExecuteScalar("SELECT COUNT(*) FROM HoaDon WHERE GIORA BETWEEN @date1 AND @date2", new object[] { date1, date2 });
+        }
+
+        public List<HoaDon> gethdlist(String start, String end)
+        {
+            string query = "exec getAllHoaDon @start , @end";
+            DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { start, end });
+            List<HoaDon> listban = new List<HoaDon>();
+
+
+            foreach (DataRow item in data.Rows)
+            {
+                HoaDon hh = new HoaDon(item);
+                listban.Add(hh);
+            }
+
+            return listban;
         }
     }
 }

@@ -17,11 +17,9 @@ CREATE TABLE KhachHang
 	DELETED INT DEFAULT 0
 )
 
-
+go
 
 insert into KhachHang(SODT, TENKH, PASS) values('111111111', N'Nguyễn Tấn Thành', '123')
-insert into KhachHang(SODT, TENKH, PASS) values('0981237123', N'Nguyễn Tuấn Kiệt', '123')
-insert into KhachHang(SODT, TENKH, PASS) values('0987321632', N'Ngô Tấn Thành', '123')
 insert into KhachHang(SODT, TENKH, PASS) values('0907650699', N'Trần Tấn Thành', '123')
 
 go
@@ -51,13 +49,10 @@ CREATE TABLE LoaiXe
 )
 
 insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe tải', 100000)
-insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe container', 200000)
 insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe hơi 4 chỗ', 150000)
 insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe hơi 7 chỗ', 170000)
-insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe giường nằm', 110000)
-insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe bus', 190000)
 insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe bán tải', 180000)
-insert into LoaiXe(TENLOAI,PhiGiu) values(N'Xe điện', 160000)
+
 
 
 CREATE TABLE BaiGiu
@@ -68,54 +63,18 @@ CREATE TABLE BaiGiu
 	DELETED INT DEFAULT 0
 )
 
-insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 1', 50)
-insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 2', 100)
-insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 3', 60)
-insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 4', 40)
+
 
 CREATE TABLE ViTri
 (
 	ID_VITRI INT PRIMARY KEY IDENTITY(1, 1),
 	SOVITRI INT,
 	MABAIXE INT FOREIGN KEY REFERENCES BaiGiu(MABAI),
-	TINHTRANG INT CHECK(TINHTRANG = 1 OR TINHTRANG = 0 OR TINHTRANG = 2),
+	TINHTRANG INT CHECK(TINHTRANG = 1 OR TINHTRANG = 0 OR TINHTRANG = 2), -- 0 là trống, 1 là có xe, 2 là đặt trước
 )
--- insert bãi 1
-DECLARE @i INT = 1;
-WHILE @i <= 10
-BEGIN
-  INSERT INTO ViTri(SOVITRI, MABAIXE, TINHTRANG)
-  VALUES (@i, 1, 0);
-  SET @i = @i + 1
-END
-go
--- insert bãi 2
-DECLARE @i INT = 1;
-WHILE @i <= 10
-BEGIN
-  INSERT INTO ViTri(SOVITRI, MABAIXE, TINHTRANG)
-  VALUES (@i, 2, 0);
-  SET @i = @i + 1
-END
-go
--- insert bãi 3
-DECLARE @i INT = 1;
-WHILE @i <= 10
-BEGIN
-  INSERT INTO ViTri(SOVITRI, MABAIXE, TINHTRANG)
-  VALUES (@i, 3, 0);
-  SET @i = @i + 1
-END
-go
--- insert bãi 4
-DECLARE @i INT = 1;
-WHILE @i <= 10
-BEGIN
-  INSERT INTO ViTri(SOVITRI, MABAIXE, TINHTRANG)
-  VALUES (@i, 4, 0);
-  SET @i = @i + 1
-END
-go
+
+alter table vitri drop constraint CK__ViTri__TINHTRANG__32E0915F
+
 
 CREATE TABLE The
 (
@@ -125,10 +84,12 @@ CREATE TABLE The
 	BIENSOXE VARCHAR(20),
 	TRANGTHAI INT DEFAULT 0, --- 1 là đang dùng, 0 là chưa
 	GIOVAO DATETIME DEFAULT NULL,
-	SDTKH VARCHAR(20) FOREIGN KEY REFERENCES KhachHang(SODT) DEFAULT NULL
+	SDTKH VARCHAR(20) FOREIGN KEY REFERENCES KhachHang(SODT) DEFAULT NULL,
+	MALOAIXE INT FOREIGN KEY REFERENCES LoaiXe(MALOAI) DEFAULT NULL
 )
 
 go
+
 CREATE TABLE HoaDon
 (
 	MAHD VARCHAR(20) primary key,
@@ -140,6 +101,8 @@ CREATE TABLE HoaDon
 	ID_VITRI INT FOREIGN KEY REFERENCES Vitri(ID_VITRI),
 	TONGTIEN FLOAT
 )
+
+alter table HoaDon alter column tongtien int
 
 select * from vitri
 
@@ -220,7 +183,7 @@ AS
 
 GO
 
-SELECT * FROM dbo.getAllXe(1)
+
 
 GO
 
@@ -248,26 +211,9 @@ CREATE PROC updateViTri @id_vitri INT
 AS
 	UPDATE ViTri SET TINHTRANG = 1 WHERE ID_VITRI = @id_vitri
 
-exec insert_datChoOnline '0907650699', 1, 1, '2023-03-27', 2, '7:30'
-exec insert_datChoOnline '0981237123', 2, 1, '2023-03-28', 1, '8:30'
-exec insert_datChoOnline '0987321632', 3, 1, '2023-03-29', 3, '9:30'
-exec insert_datChoOnline '0987321632', 10, 1, '2023-03-30', 3, '9:30'
-update vitri set tinhtrang = 1 where ID_VITRI=10
-select * from ViTri
 
+go
 
-
--- insert thẻ bãi 1
-
-DECLARE @i INT = 1;
-WHILE @i <= 200
-BEGIN
-  DECLARE @ten NVARCHAR(20) = N'Thẻ ' + CAST(@i AS NVARCHAR(10))
-  DECLARE @bsx VARCHAR(20) = 'BS000' + CAST(@i AS NVARCHAR(10))
-  INSERT INTO The(TENTHE, ID_VITRI, BIENSOXE)
-  VALUES (@ten, 1, @bsx);
-  SET @i = @i + 1
-END
 
 
 
@@ -287,19 +233,9 @@ where HoaDon.SODTKH =  @sdtkh
 end
 
 GO
-create proc showdatchoonline_proc @sdtkh varchar(20)
-as
-begin
-select datchoonline.madon,vitri.SOVITRI, BaiGiu.TENBAI, datchoonline.ngaydat, LoaiXe.TENLOAI, datchoonline.giodat, datchoonline.tinhtrang  from datchoonline join vitri
-on datchoonline.ID_VITRI = vitri.ID_VITRI
-join BaiGiu on BaiGiu.MABAI = datchoonline.mabai
-join LoaiXe on LoaiXe.MALOAI = datchoonline.loaixe
-where datchoonline.sdtkhachhang = @sdtkh and datchoonline.tinhtrang != 2 -- 2 là đã vào HD  { { -1, "bị hủy" }, { 0, "chờ xử lý" }, { 1, "đặt thành công" } };
-end
 
 
-
-
+go
 
 
 CREATE PROCEDURE insertHoaDon @sdtkh VARCHAR(20), @nvthu VARCHAR(20), @maloaixe INT, @id_vitri INT, @giovao DATETIME, @giora DATETIME
@@ -312,7 +248,7 @@ BEGIN
 	SELECT @duration = DATEDIFF(SECOND, @giovao, @giora)
 	
 	DECLARE @tongtien FLOAT
-	SELECT @tongtien = @phigiu * (@duration / 3600.0)
+	SELECT @tongtien = @phigiu * (@duration / 3600)
 	
 	IF @duration >= 8 * 3600 AND @duration < 16 * 3600
 		SET @tongtien = @tongtien * 1.1
@@ -320,13 +256,15 @@ BEGIN
 		SET @tongtien = @tongtien * 1.3
 	ELSE IF @duration >= 24 * 3600
 		SET @tongtien = @tongtien * 1.5
-	
+	IF @sdtkh IS NULL OR @sdtkh = ''
+		SET @sdtkh = 'xxx'
 	INSERT INTO HoaDon (MAHD, SODTKH, NVTHU, MALOAIXE, ID_VITRI, TONGTIEN) 
 	VALUES(dbo.func_taoMaHoaDon(), @sdtkh, @nvthu, @maloaixe, @id_vitri, @tongtien)
 END
 
+go
 
-
+/*
 CREATE TRIGGER trg_BaiGiu_Insert_Update ON BaiGiu
 AFTER INSERT, UPDATE
 AS
@@ -342,15 +280,21 @@ BEGIN
         
         -- Insert new records into ViTri
         DECLARE @SOVITRI INT = 1
+		DECLARE @ID_VITRI INT
+		SELECT @ID_VITRI =  ID_VITRI FROM ViTri WHERE MABAIXE = @MABAI AND SOVITRI = @SOVITRI
+
         WHILE @SOVITRI <= @SUCCHUA
         BEGIN
+
+			DECLARE @Ten NVARCHAR(20) = N'Thẻ ' + CAST(@SOVITRI AS NVARCHAR(10))
+            INSERT INTO The (TENTHE, ID_VITRI, BIENSOXE, TRANGTHAI, GIOVAO, SDTKH)
+            VALUES (@Ten, @ID_VITRI, '', 0, NULL, NULL)
             
             INSERT INTO ViTri (SOVITRI, MABAIXE, TINHTRANG)
             VALUES (@SOVITRI, @MABAI, 0)
             
-            DECLARE @Ten NVARCHAR(20) = N'Thẻ ' + CAST(@SOVITRI AS NVARCHAR(10))
-            INSERT INTO The (TENTHE, ID_VITRI, BIENSOXE, TRANGTHAI, GIOVAO, SDTKH)
-            VALUES (@Ten, (SELECT ID_VITRI FROM ViTri WHERE MABAIXE = @MABAI AND SOVITRI = @SOVITRI), '', 0, NULL, NULL)
+			update the set ID_VITRI = @ID_VITRI
+            
             
             
             SET @SOVITRI = @SOVITRI + 1
@@ -358,7 +302,188 @@ BEGIN
     END
     
     -- Update 
-END
+    IF EXISTS (SELECT * FROM deleted)
+    BEGIN
+        DECLARE @SUCCHUACU INT
+        SELECT @SUCCHUACU = SUCCHUA
+        FROM deleted
+        
+		DECLARE @SUCCHUAMOI INT
+		SELECT @SUCCHUAMOI = SUCCHUA FROM inserted
+		
+        IF (@SUCCHUACU < @SUCCHUAMOI)
+		BEGIN
+			DECLARE @i INT = @SUCCHUACU + 1;
+			WHILE (@i <= @SUCCHUAMOI)
+			BEGIN
 
-insert into BaiGiu (TENBAI, SUCCHUA) Values(N'A', 5)
-select * From BaiGiu
+				INSERT INTO ViTri (SOVITRI, MABAIXE, TINHTRANG) VALUES (@i, @MABAI, 0);
+				DECLARE @TenMoi NVARCHAR(20) = N'Thẻ ' + CAST(@SOVITRI AS NVARCHAR(10))
+				INSERT INTO The (TENTHE, ID_VITRI, BIENSOXE, TRANGTHAI) VALUES (@TenMoi, SCOPE_IDENTITY(), NULL, 0);
+				SET @i = @i + 1;
+			END
+		END
+		ELSE IF (@SUCCHUACU > @SUCCHUAMOI)
+		BEGIN
+			DECLARE @num_delete INT = @SUCCHUACU - @SUCCHUAMOI;
+			DELETE FROM The WHERE ID_VITRI IN (SELECT TOP (@num_delete) ID_VITRI FROM ViTri WHERE MABAIXE = @MABAI ORDER BY ID_VITRI DESC);
+			DELETE FROM ViTri WHERE MABAIXE = @MABAI AND ID_VITRI NOT IN (SELECT TOP (@SUCCHUAMOI) ID_VITRI FROM ViTri WHERE MABAIXE = @MABAI ORDER BY ID_VITRI);
+		END
+	END
+END
+go*/
+
+create trigger insert_vitri_of_baigiu on baigiu after insert 
+as
+begin
+	Declare @sovitri int
+	declare @mabai int
+	select @sovitri = succhua, @mabai = mabai from inserted 
+	Declare @count int = 1;
+
+	while @count <= @sovitri
+	begin
+		INSERT INTO ViTri (SOVITRI, MABAIXE, TINHTRANG)
+            VALUES (@count, @mabai, 0)
+		set @count = @count + 1
+	end 
+end
+
+go
+
+create trigger insert_the_for_vitri on vitri after insert
+as
+begin
+	declare @id_vitri int
+	select @id_vitri = id_vitri from inserted
+
+	DECLARE @Ten NVARCHAR(20) = N'Thẻ ' + CAST(@id_vitri AS NVARCHAR(10))
+            INSERT INTO The (TENTHE, ID_VITRI, BIENSOXE, TRANGTHAI, GIOVAO, SDTKH)
+            VALUES (@Ten, -1, '', 0, NULL, NULL)
+
+end
+go
+
+create proc getAllHoaDon @start date, @end date
+as	
+begin
+
+	select HoaDon.MAHD ,NhanVien.TENNV,LoaiXe.TENLOAI, BaiGiu.TENBAI,ViTri.SOVITRI,HoaDon.GIORA, HoaDon.TONGTIEN  from HoaDon join NhanVien 
+	on HoaDon.NVTHU = NhanVien.SODT
+	join LoaiXe
+	on HoaDon.MALOAIXE = LoaiXe.MALOAI
+	join ViTri
+	on ViTri.ID_VITRI = HoaDon.ID_VITRI
+	join BaiGiu on BaiGiu.MABAI = ViTri.MABAIXE
+	where HoaDon.GIORA BETWEEN @start AND @end
+end
+
+go
+
+
+
+create proc showdatchoonline_proc @sdtkh varchar(20)
+as
+begin
+select datchoonline.madon,vitri.SOVITRI, BaiGiu.TENBAI, datchoonline.ngaydat, LoaiXe.TENLOAI, datchoonline.giodat, datchoonline.tinhtrang  from datchoonline join vitri
+on datchoonline.ID_VITRI = vitri.ID_VITRI
+join BaiGiu on BaiGiu.MABAI = datchoonline.mabai
+join LoaiXe on LoaiXe.MALOAI = datchoonline.loaixe
+where datchoonline.sdtkhachhang = @sdtkh and datchoonline.tinhtrang != 2 -- 2 là đã vào HD  { { -1, "bị hủy" }, { 0, "chờ xử lý" }, { 1, "đặt thành công" } };
+end
+
+go
+create proc updatekh  @sdt varchar(20) , @tenkh nvarchar(20) , @pass varchar(20)
+as 
+begin
+	update KhachHang set TENKH = @tenkh where SODT = @sdt
+	update KhachHang set PASS = @pass where SODT = @sdt
+end
+
+go
+create trigger update_vitri_of_bai on baigiu after update 
+as 
+begin
+	declare @mabai int
+	declare @succhua_cu int
+	declare @succhua_moi int
+
+	select @mabai = mabai,  @succhua_cu = succhua from deleted
+	select @succhua_moi = succhua from inserted
+
+	if @succhua_cu < @succhua_moi
+	begin
+		while @succhua_cu < @succhua_moi
+		begin
+			INSERT INTO ViTri (SOVITRI, MABAIXE, TINHTRANG)
+            VALUES (@succhua_cu+1, @mabai, 0)
+			set @succhua_cu = @succhua_cu + 1
+		end
+	end
+	else
+	begin
+
+		update vitri set TINHTRANG = 3 where ID_VITRI IN(select top (@succhua_cu-@succhua_moi) ID_VITRI  from ViTri
+		order by ID_VITRI desc )	
+		update the set TRANGTHAI = 3 where ID_VITRI IN(select top (@succhua_cu-@succhua_moi) ID_VITRI  from ViTri
+		order by ID_VITRI desc )
+	end
+
+	
+end
+
+go
+
+select * from BaiGiu
+select * from vitri
+select * from the
+
+
+update BaiGiu set SUCCHUA = 50
+
+insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 1', 50)
+insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 2', 100)
+insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 3', 60)
+insert into BaiGiu(TENBAI,SUCCHUA) values(N'Bãi 4', 40)
+
+
+update the set ID_VITRI =null , BIENSOXE = '', TRANGTHAI = 0 , GIOVAO = NULL, SDTKH = null where SOTHE = 1
+update vitri set TINHTRANG= 0 where ID_VITRI = 1
+select * from the
+select * from ViTri
+update The set ID_VITRI=null, BIENSOXE=null, TRANGTHAI=0, GIOVAO=null, maloaixe =null
+select * from hoadon
+select * from LoaiXe
+select * from KhachHang
+
+insert into KhachHang values('xxx', 'xxx', 0, 0, 0)
+select * from KhachHang
+
+go
+create trigger update_point on HoaDon AFTER INSERT
+as
+begin
+	DECLARE @sdtkh VARCHAR(20)
+	SELECT @sdtkh = SODTKH FROM inserted 
+	if(select DIEMTICHLUY FROM KhachHang WHERE SODT = @sdtkh) > 5
+	BEGIN
+		UPDATE HoaDon SET TONGTIEN = TONGTIEN-10000
+	END
+	update KhachHang set DIEMTICHLUY = DIEMTICHLUY + 1 WHERE sodt =@sdtkh
+	
+end
+
+select * from datchoonline
+
+select * from ViTri
+
+delete from datchoonline where madon = @madon
+
+select * from the
+update vitri set TINHTRANG = 0
+update the set ID_VITRI = null, BIENSOXE = null, TRANGTHAI = 0, GIOVAO =null, maloaixe = null 
+
+
+select * from NhanVien
+
+update HoaDon set TONGTIEN = 10000

@@ -103,6 +103,7 @@ namespace GUI
                         fstaff.ShowDialog();
                         this.Show();
                         this.WindowState = FormWindowState.Minimized;
+                        this.Hide();
                     }
 
 

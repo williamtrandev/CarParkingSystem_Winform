@@ -40,12 +40,12 @@ namespace DAO
         }
         public bool changeStateVitriDatCho(int id_vitri)
         {
-            string query = "UPDATE Vitri SET tinhtrang = 2 where ID_VITRI = @id_vitri";
+            string query = "UPDATE Vitri SET tinhtrang = 1 where ID_VITRI = @id_vitri";
             return DataProvider.Instance.ExecuteNonQuery(query, new object[] { id_vitri }) > 0;
         }
         public List<ViTri> getVitriTheoMaBai(int mabai)
         {
-            String query = "select * from ViTri where MABAIXE = @mabai";
+            String query = "select * from ViTri where MABAIXE = @mabai and tinhtrang != 3";
             List<ViTri> listvitri = new List<ViTri>();
 
             DataTable data = DataProvider.Instance.ExecuteQuery(query, new object[] { mabai });

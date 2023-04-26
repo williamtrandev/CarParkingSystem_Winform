@@ -210,6 +210,7 @@
             this.Controls.Add(this.tb_name);
             this.Controls.Add(this.tb_phone);
             this.Controls.Add(this.pb_background);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(1000, 800);
             this.MinimumSize = new System.Drawing.Size(1000, 800);
             this.Name = "FAddEditStaff";
